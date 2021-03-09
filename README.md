@@ -8,7 +8,7 @@ The submission contains the login pages for the Beer Distribution game implement
  
  The index page allows you to choose a log in option as Instructor, Student or to create a custom game.
  
- ### Changes to the original requirements document
+ ## Changes to the original requirements document
 
 One of the requirements that Professor Chankov mentioned was for students to be able to create their own game. This requirement was missing in the original document. 
 
