@@ -4,7 +4,7 @@ SE Sprint 01, Team 31
 
 ## Overview
 
-The submission contains the login pages for the Beer Distribution game implemented with HTML/CSS for front-end as well as a database for the instructor login implemented with Django and MySQL.
+The submission contains the login pages for the Beer Distribution game implemented with HTML/CSS for front-end as well as a database for the instructor sign up implemented with Django and MySQL.
  
  The index page allows you to choose a log in option as Instructor, Student or to create a custom game.
 
