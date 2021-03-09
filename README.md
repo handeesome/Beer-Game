@@ -12,7 +12,7 @@ The submission contains the login pages for the Beer Distribution game implement
 
 One of the requirements that Professor Chankov mentioned was for students to be able to create their own game. This requirement was missing in the original document. 
 
-We added the [signup-custom.html](SE/templates/signup-costum.html) and the [custom_login.html](SE/templates/custom_login.html) file to allow students to either sign up or log in (if they have already registered) and make a custom game. 
+We added the [signup-custom.html](SE/templates/signup-custom.html) and the [custom_login.html](SE/templates/custom_login.html) file to allow students to either sign up or log in (if they have already registered) and make a custom game. 
 
 ## Requirements
 
