@@ -37,3 +37,4 @@ The *SE* folder contains the Django files to save the Instructor sign up data i.
 
 * [models.py](SE/SE/models.py) saves the data into the database
 * [views.py](SE/SE/views.py) connects to the database and renders the HTML files.
+ 
