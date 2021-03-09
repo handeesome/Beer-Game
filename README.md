@@ -26,7 +26,9 @@ Check the official page for information on how to download Django (https://www.d
 The versions worked with in this Sprint:
 
 Python 3.9.2
+
 Django 3.1
+
 MySQL Installer 8.0.23
 
 ## Structure
