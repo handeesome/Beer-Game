@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Beer Distribution Game</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'style.css'%}">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Quantico&display=swap" 
+    rel="stylesheet">  
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap" 
+    rel="stylesheet"> 
+</head>
+<body>
+    <header><a href="{% url 'goindex'%}">Beer Distribution Game</a></header>
+    <div class="selection-form">
+        <h2>Choose an option</h2>
+        <div class="container-select">
+            <div class="button">
+                <div>
+                    <figure><img src="images/instructor.png" alt="instructor-icon"></figure>
+                </div>
+                <div>
+                    <button class="selectbtn"><span><a href="{% url 'ins_log'%}">Instructor</a></span></button>
+                </div>
+            </div>
+            <div class="button">
+                <div>
+                    <figure><img src="images/student.png" alt="instructor-icon"></figure>
+                </div>
+                <div>
+                    <button class="selectbtn"><span><a href="{% url 'stu_log'%}">Student</a></span></button>
+                </div>
+            </div> 
+        </div>
+        <h2>or</h2>
+            <div class="button"> 
+                <div>
+                    <button class="selectbtn"><span><a href="{% url 'cus_log'%}">Create custom game</a></span></utton>
+                </div>
+            </div>
+    </div>
+</body>
+</html>
