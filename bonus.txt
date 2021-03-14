@@ -3,19 +3,28 @@
 UML Class diagram
 ==========================================================================
 
-|----------------------|             |-----------------------------|              |-------------------|                              
-|User/Instructor       |             |     Role                    |              |roleUser           |               
-|--------------------- |             |-----------------------------|              |------------------ |                                   
-|id: integer           |             |id: integer                  |              |roleid: integer    |                                              
-|name: string ,user    |             |roleName: string             |              |userid: integer    |         
-|email: string         |             |downstreamPlayer: id(role_id)|              |===================|                                                    
-|password: string      |             |upstreamPlayer: id(role_id)  |                                                       
-|isInstructor: boolean |             |=============================|                                                                       
-|=======================                                                                           
+|-----------------------------|              |-------------------|                              
+|     Role                    |              | UserRole          |               
+|-----------------------------|              |------------------ |                                   
+|id: integer                  |              |roleid: integer    |                                              
+|roleName: string             |              |userid: integer    |         
+|downstreamPlayer: id(role_id)|              |===================|                                                    
+|upstreamPlayer: id(role_id)  |                                                                                                                
+|=============================|                                                                   
+
+|----------------------|                        
+|User/Instructor       |    
+|--------------------- |                    
+|id: integer           |                                             
+|firstname,lastname str|   
+|email: string         |                                   
+|password: string      |                                                   
+|isInstructor: boolean |                                                                       
+|=======================      
 
 
 |------------------------------|                    |------------------------------|              |------------------------------|                                                                                                                                                                                                                                                                                          
-|  Game                        |                    |  Week                        |              |  roleweek                    |                                                                                                                                                                                                                                                               
+|  Game                        |                    |  Week                        |              |  roleWeek                    |                                                                                                                                                                                                                                                               
 |------------------------------|                    |------------------------------|              |------------------------------|                                                                                                                                                                                                                                                                                                                                                            
 |  id: integer                 |                    |  id: integer                 |              |  roleid: integer             |                                                                                                                                                                                                                                                                                                                                                                                          
 |  adminId: integer(userId)    |                    |  number: integer             |              |  weekid: integer             |                                                                                                                                                                                                                                                                                                                                                                                                                                              
@@ -23,23 +32,15 @@ UML Class diagram
 |  wholesalerPresent: boolean  |                    |  backlog: integer            |                                                                                                                                                                                                                                                                                                                                                                                        
 |  holding_cost: integer       |                    |  demand: integer             |                                                                                                                                                                                                                                                                  
 |  backlog_cost: integer       |                    |  incoming_shipment: integer  |              |------------------------------|                                                                                                                                                                                                                                                                          
-|  active: boolean             |                    |  outgoing_shipment: integer  |              |  roleGame                    |                                                                                                                                                                                                                                                                                                                                                 
+|  active: boolean             |                    |  outgoing_shipment: integer  |              |  gameRole                    |                                                                                                                                                                                                                                                                                                                                                 
 |  info_sharing: boolean       |                    |  order_placed: integer       |              |------------------------------|                                                                                                                                                                                                                                                                                                                                                                                
 |  info_delay: integer         |                    |  cost: integer               |              |  roleid: integer             |                                                                                                                                                                                                                                                                                                                                                                                                                                                              
 |  rounds_completed: integer   |                    |==============================|              |  gameid: integer             |                                                                                                                                                                                                                                                                                                                                                                                                                          
 |  isDefaultGame: boolean      |                                                                  |==============================|                                                                                                                                                        
-|  startingInventory: boolean  |                                                                                                                                                                                                                                                                                                                                                               
+|  startingInventory: integer  |                                                                                                                                                                                                                                                                                                                                                               
 |==============================|   
 
 
-|----------------------|                          
-Instructor             |         
-|--------------------- |                                
-|id: integer           |                                            
-|name: string          |           
-|email: string         |                                            
-|password: string      |                                                               
-|=======================  
 
 Note: There was not provided editable sources from the specification, so we thought creating a text file, which if approven can be merged 
 with the winning specification. We think that the proposed changes are essential for the implementation of the software.                                                                                                                                                                  

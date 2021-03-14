@@ -29,4 +29,4 @@ class ExtendedUserCreationForm(UserCreationForm):
 class UserProfileForm(ModelForm):
     class Meta:
         model = UserProfile
-        fields = ['isInstructor']
+        fields = ['is_instructor']
