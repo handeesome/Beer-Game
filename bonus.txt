@@ -1,0 +1,92 @@
+
+==========================================================================
+UML Class diagram
+==========================================================================
+
+|----------------------|             |-----------------------------|              |-------------------|                              
+|User/Instructor       |             |     Role                    |              |roleUser           |               
+|--------------------- |             |-----------------------------|              |------------------ |                                   
+|id: integer           |             |id: integer                  |              |roleid: integer    |                                              
+|name: string ,user    |             |roleName: string             |              |userid: integer    |         
+|email: string         |             |downstreamPlayer: id(role_id)|              |===================|                                                    
+|password: string      |             |upstreamPlayer: id(role_id)  |                                                       
+|isInstructor: boolean |             |=============================|                                                                       
+|=======================                                                                           
+
+
+|------------------------------|                    |------------------------------|              |------------------------------|                                                                                                                                                                                                                                                                                          
+|  Game                        |                    |  Week                        |              |  roleweek                    |                                                                                                                                                                                                                                                               
+|------------------------------|                    |------------------------------|              |------------------------------|                                                                                                                                                                                                                                                                                                                                                            
+|  id: integer                 |                    |  id: integer                 |              |  roleid: integer             |                                                                                                                                                                                                                                                                                                                                                                                          
+|  adminId: integer(userId)    |                    |  number: integer             |              |  weekid: integer             |                                                                                                                                                                                                                                                                                                                                                                                                                                              
+|  distributorPresent: boolean |                    |  inventory: integer          |              |==============================|                                                                                                                                                                                                                                                                                                                          
+|  wholesalerPresent: boolean  |                    |  backlog: integer            |                                                                                                                                                                                                                                                                                                                                                                                        
+|  holding_cost: integer       |                    |  demand: integer             |                                                                                                                                                                                                                                                                  
+|  backlog_cost: integer       |                    |  incoming_shipment: integer  |              |------------------------------|                                                                                                                                                                                                                                                                          
+|  active: boolean             |                    |  outgoing_shipment: integer  |              |  roleGame                    |                                                                                                                                                                                                                                                                                                                                                 
+|  info_sharing: boolean       |                    |  order_placed: integer       |              |------------------------------|                                                                                                                                                                                                                                                                                                                                                                                
+|  info_delay: integer         |                    |  cost: integer               |              |  roleid: integer             |                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+|  rounds_completed: integer   |                    |==============================|              |  gameid: integer             |                                                                                                                                                                                                                                                                                                                                                                                                                          
+|  isDefaultGame: boolean      |                                                                  |==============================|                                                                                                                                                        
+|  startingInventory: boolean  |                                                                                                                                                                                                                                                                                                                                                               
+|==============================|   
+
+
+|----------------------|                          
+Instructor             |         
+|--------------------- |                                
+|id: integer           |                                            
+|name: string          |           
+|email: string         |                                            
+|password: string      |                                                               
+|=======================  
+
+Note: There was not provided editable sources from the specification, so we thought creating a text file, which if approven can be merged 
+with the winning specification. We think that the proposed changes are essential for the implementation of the software.                                                                                                                                                                  
+
+7 database entities:
+
+-User/Instructor
+-Role
+-Game
+-Week 
+-roleWeek
+-roleGame
+-roleUser
+
+From which :                                                
+Overall 4 UML classes:         Other two tables are just entities displaying the many-to-many relationship between two classes:           
+-User/Instructor               -roleWeek              
+-Role                          -roleGame
+-Game                          -roleUser    
+-Week                                    
+
+
+
+
+Our group suggests the above shown database entities (which differs from the UML class diagram fround in the SE requirement sheet of the
+ winning group). The reason being:
+1. Professor Chankov in the last email said that students can take part in more than 1 game at the same time. Due to this reason, another
+class should be created called Roles which will take the specific role a player has in a specific game. This is a many-to-many 
+relation so two other entities (database entities in this case, which can be omitted in the UML class diagram) storing the relation between
+role-user and role-game correspondingly should be created(these two entities can be merged with one another if needed).
+2. In the game, there should be displayed a lot of information regarding what each player has done in a specific role during each week.
+Therefore, to store this information, another class must be created: Week class. This class will hold all the relevant information
+regarding a specific round; it will be closely related to a specific role, that's why a many-to-many relationship exists even between
+Role class and Week class (which corresponds to another database entity: roleWeek).
+3. In the original UML class diagram, there were a lot of properties which stored an array of ids. Knowing that this is not good practise,
+the proposed changes suggest a better design, which will also be very easy to implement. Storing the adminId in the game, and making three
+other entities roleWeek, roleGame, roleUser, the above mentioned problem is solved.
+4. Lastly, with the changes proposed, there was no need to have two seperate classes for instructor and student. These two classes can be
+merged in one, being differentiated by a boolean property isInstructor. Professor Chankov required a specification that allowed a student
+to create a game if he wants. Our proposed UML class diagram makes it possible, because the adminId found in the Game class does not specify
+whether the admin should be a student or instructor.
+
+With all that being said, we would really appreciate it if you would approve the above mentioned changes. This really helps with the
+implementation.
+
+ 
+
+
+
+
