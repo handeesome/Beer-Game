@@ -1,22 +1,43 @@
-<form method="POST" action="">
-    {% csrf_token %}
-    <div class="input-group mb-3">
-        <div class="input-group-append">
-            <span class="input-group-text"><i class="fas fa-user"></i></span>
-        </div>
+{% load static %}
 
-        <input type="text" name="username" placeholder="Username..." class="form-control">
-    </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'game/style.css' %}" />
+    <title>User Login</title>
+</head>
 
-    <div class="input-group mb-2">
-        <div class="input-group-append">
-            <span class="input-group-text"><i class="fas fa-key"></i></span>
-        </div>
+<body>
+    <div class="container">
+      <div class="forms-container">
+        <div class="signin-signup">
+          <form action="#" class="sign-form">
 
-            <input type="password" name="password" placeholder="Password..." class="form-control" >
-    </div>
+            {% csrf_token %}
 
-        <div class="d-flex justify-content-center mt-3 login_container">
-             <input class="btn login_btn" type="submit" value="Login">
-           </div>
-</form>
+            <h1 class="title">Beer Distribution Game</h1>
+            <br>
+            <h2 class="title">Log In</h2>
+
+            <div class="input-field">
+              <i class="fas fa-user"></i>
+              <input type="text" name="username" placeholder="Username" />
+          </div>
+
+          <div class="input-field">
+              <i class="fas fa-lock"></i>
+              <input type="password" name="password" placeholder="Password" />
+          </div>
+          <input type="submit" value="Login" class="btn solid" />
+          <br>
+          <p class="footer-text">Don't have an account yet? <a href="/register">Register here.</a></p>
+      </form>
+  </div>
+</div>
+</div>
+
+</body>
+</html>
