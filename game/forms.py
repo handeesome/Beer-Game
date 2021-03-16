@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.forms import ModelForm
-from .models import UserProfile
+from .models import *
 
 
 class ExtendedUserCreationForm(UserCreationForm):
@@ -30,3 +30,23 @@ class UserProfileForm(ModelForm):
     class Meta:
         model = UserProfile
         fields = ['is_instructor']
+
+
+
+class GameCreationForm(forms.ModelForm):
+	class Meta:
+		model = Game
+		fields = '__all__'
+		exclude = ('admin','roles')
+
+
+# created a custom form instead of using a model form
+# because the model needs some role models which don't
+# exist at first, that's why most of the data will be taken
+# from the same as the Game model itself
+class ExtendedGameCreationForm(forms.Form):
+    retailer = forms.ModelChoiceField(queryset=User.objects.all().filter(userprofile__is_instructor=False), required=True)
+    wholesaler = forms.ModelChoiceField(queryset=User.objects.all().filter(userprofile__is_instructor=False))
+    distributor = forms.ModelChoiceField(queryset=User.objects.all().filter(userprofile__is_instructor=False))
+    factory = forms.ModelChoiceField(queryset=User.objects.all().filter(userprofile__is_instructor=False), required= True)
+    

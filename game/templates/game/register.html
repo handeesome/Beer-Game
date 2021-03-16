@@ -15,7 +15,7 @@
 	<div class="container">
 		<div class="forms-container">
 			<div class="signin-signup">
-				<form action="#" class="sign-form">
+				<form method="POST" action="{% url 'game:register' %}" class="sign-form">
 					<h2 class="title"style="padding-bottom: 20px;">Create Account</h2>
 
 		            {% csrf_token %}
@@ -62,14 +62,14 @@
 		            <!-- Error messages -->
 			       	<div class="errorlist" style="color: red">
 			          	{% for field, error in form.errors.items %}
-			          	{% if field != '__all__' %}{{ field }}{% endif %} 
+			          	{% if field != '__all__' %}{% endif %} 
 			          	<br>
 			          	{{ error | striptags }}
 			          	<br>
 			          	{% endfor %}
 			        </div>
 
-		          	<input type="submit" value="Register" class="btn solid" />
+		          	<input type="submit" value="register" class="btn solid" />
 		          	<br>
 		          	<p class="footer-text">Already have an account? <a href="/login">Login here.</a></p>
 		        </form>

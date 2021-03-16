@@ -18,8 +18,8 @@ class Week(models.Model):
 
 class Role(models.Model):
     role_name = models.CharField(max_length=20)
-    downstream_player = models.IntegerField()
-    upstream_player = models.IntegerField()
+    downstream_player = models.IntegerField(default=0)
+    upstream_player = models.IntegerField(default=0)
     weeks = models.ManyToManyField(
         Week, 
         through='RoleWeek',
@@ -60,7 +60,7 @@ class Game(models.Model):
         # through_fields=('user_id', 'role_id'),
     )
     def __str__(self):
-        return self.adminId
+        return str(self.nr_rounds)
 
 
 class GameRole(models.Model):
