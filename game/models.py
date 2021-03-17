@@ -5,13 +5,14 @@ from django.contrib.auth.models import User
 
 class Week(models.Model):
     number = models.IntegerField()
-    inventory = models.IntegerField()
-    backlog = models.IntegerField()
-    demand = models.IntegerField()
-    incoming_shipment = models.IntegerField()
-    outgoing_shipment = models.IntegerField()
-    order_placed = models.IntegerField()
-    cost = models.IntegerField()
+    date = models.DateTimeField()
+    inventory = models.IntegerField(default= 0)
+    backlog = models.IntegerField(default= 0)
+    demand = models.IntegerField(default= 0)
+    incoming_shipment = models.IntegerField(default= 0)
+    outgoing_shipment = models.IntegerField(default= 0)
+    order_placed = models.IntegerField(default= 0)
+    cost = models.IntegerField(default= 0)
     def __str__(self):
         return self.number
 
@@ -26,7 +27,7 @@ class Role(models.Model):
         # through_fields=('role_id', 'week_id'),
     )
     def __str__(self):
-        return self.roleName
+        return self.role_name
 
 
 class UserProfile(models.Model):

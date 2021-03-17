@@ -2,7 +2,7 @@
     {% csrf_token %}
     {{form1.as_p}}
     {{form2.as_p}}
-    <!-- errors from the first form
+    <!-- errors from the first form -->
     <div class="errorlist" style="color: red">
         {% for field, error in form1.errors.items %}
         {% if field != '__all__' %}{% endif %} 
@@ -11,7 +11,7 @@
         <br>
         {% endfor %}
     </div>
-    errors from the second form
+    <!-- errors from the second form -->
     <div class="errorlist" style="color: red">
         {% for field, error in form2.errors.items %}
         {% if field != '__all__' %}{% endif %} 
@@ -21,11 +21,11 @@
         {% endfor %}
     </div>
 
-    errors specified in the views
+    <!-- errors specified in the views -->
     <div class="errorlist" style="color: red">
         {% for message in messages %}
           <p id="messages">{{message}}</p>
         {% endfor %}
-    </div> -->
+    </div>
     <input type="submit" value="Create">
 </form>

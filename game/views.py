@@ -1,5 +1,8 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
+from django.urls import reverse
+from django.utils import timezone
+import datetime
 
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -59,17 +62,20 @@ def logoutUser(request):
 
 @login_required(login_url='game:login')
 def home(request):
-    context={'message': 'Welcome to the main Page'}
+
+    list_roles = Role.objects.filter(userprofile=request.user.userprofile)
+    game_created = Game.objects.filter(admin=request.user.userprofile)
+    context={'message': 'Welcome to the main Page', 'list_roles': list_roles, 'game_created': game_created, 'user': request.user.userprofile}
     return render(request, 'game/main.html', context)
 
 
-@login_required(login_url='login')
+@login_required(login_url='game:login')
 def createGame(request):
     if request.method == "POST":
         form1 = GameCreationForm(request.POST)
         form2 = ExtendedGameCreationForm(request.POST)
         if form1.is_valid() and form2.is_valid():
-            # get all the data from the second form
+            # get the data from the forms
             retailer = form2.cleaned_data.get("retailer")
             wholesaler = form2.cleaned_data.get("wholesaler")
             distributor = form2.cleaned_data.get("distributor")
@@ -77,6 +83,9 @@ def createGame(request):
 
             isDistributor = form1.cleaned_data['distributor_present']
             isWholesaler = form1.cleaned_data['wholesaler_present']
+            startingInventory = form1.cleaned_data['starting_inventory']
+            nrRounds = form1.cleaned_data['nr_rounds']
+
 
             # ## check for the errors
             # # check if we have selected more than specified
@@ -95,14 +104,14 @@ def createGame(request):
             
 
 
-            # #if no errors than save the game, create the respective roles
+            # #if no errors than save the game, set the admin
             game = form1.save(commit = False)
             user31 = UserProfile.objects.get(user_id=request.user.id)
             game.admin = user31
             game.save()
 
 
-
+            #create the respective roles
             r1 = r2 = r3 = r4 = None
             r1 = Role(role_name="retailer")
             r1.save()
@@ -125,8 +134,8 @@ def createGame(request):
                 r3.upstream_player = r4.id
 
             r1.save()
-            r2.save()
-            r3.save()
+            if(r2): r2.save()
+            if(r3): r3.save()
             r4.save()
 
             #add the roles to the userProfile and the game
@@ -144,11 +153,59 @@ def createGame(request):
                 user3 = UserProfile.objects.get(user__pk=wholesaler.id)
                 user3.roles.add(r3)
                 game.roles.add(r3)
+
+
+            #create the weeks, with the respective times, number and starting inventory
+            # and add them to the role
+            for i in range(nrRounds):
+                week1 = Week(date=timezone.now()+datetime.timedelta(weeks=i), number= i+1, inventory=startingInventory)
+                week1.save()
+                r1.weeks.add(week1)
+                if(r2): 
+                    week2 = Week(date=timezone.now()+datetime.timedelta(weeks=i), number= i+1, inventory=startingInventory)
+                    week2.save()
+                    r2.weeks.add(week2)
+                if(r3): 
+                    week3 = Week(date=timezone.now()+datetime.timedelta(weeks=i), number= i+1, inventory=startingInventory)
+                    week3.save()
+                    r3.weeks.add(week3)
+                week4 = Week(date=timezone.now()+datetime.timedelta(weeks=i), number= i+1, inventory=startingInventory)
+                week4.save()
+                r4.weeks.add(week4)
     
-            return redirect('game:home')
+            return HttpResponseRedirect(reverse('game:demand', args=(game.id,)))
     else:
         form2 = ExtendedGameCreationForm()
         form1 = GameCreationForm()	
     
     context = {'form1':form1, 'form2':form2}
     return render(request, 'game/createGame.html', context)
+
+
+@login_required(login_url='game:login')
+def createDemand(request, game_id):
+    print("bbb")
+    game = Game.objects.get(pk=game_id)
+    if request.method == "POST":
+        text = request.POST['demand']
+        demands = text.split(", ")
+        if len(demands) != game.nr_rounds:
+            messages.info(request, 'You have not specified all rounds')
+        
+        k=1
+        for customer_demand in demands:
+            week1 = Week.objects.get(role__game=game, number=k, role__role_name="retailer")
+            week1.demand = customer_demand
+            week1.save()
+            k+=1
+        return redirect('game:home')
+
+    context = {'game': game}
+    return render(request, 'game/demandPattern.html', context)
+
+
+@login_required(login_url='game:login')
+def enterGame(request, role_id):
+    context = {'message': 'You are at the game now', 'role_id': role_id}
+    return render(request, 'game/enterGame.html', context)
+

@@ -1,0 +1,22 @@
+<h1>CREATE THE DEMAND PATTERN</h1>
+
+
+<p>
+    Update the new custom demand by pasting comma delimited weekly demand
+    in the textbox below. You need provide a demand stream for {{game.nr_rounds}} weeks, each week 
+    seperated by a comma.
+    Note: All demand values should be integers and do not include any space or hit enter after the last week 
+</p>
+<form method = "POST" action="{% url 'game:demand' game.id %}" id="usrform">
+    {{game.id}}
+    {% csrf_token %}
+    <input type="submit">
+  </form>
+
+<!-- errors specified in the views -->
+<div class="errorlist" style="color: red">
+  {% for message in messages %}
+    <p id="messages">{{message}}</p>
+  {% endfor %}
+</div>
+<textarea name="demand" form="usrform">5, 4, 2, 3</textarea>

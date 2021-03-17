@@ -1,5 +1,41 @@
+{% load static %}
+
 <h1>Main Page</h1>
 <h2>{{message}}</h2>
+
+{%if user.is_instructor == false%}
+<h3>Games that you are playing</h3>
+<!-- Displating all roles which the user is playing -->
+{% if list_roles %}
+    <ul>
+    {% for role in list_roles %}
+        {% for game in role.game_set.all%}
+            Game ID: {{game.id}}
+        {%endfor%}
+    <li><a href="{% url 'game:enterGame' role.id %}">
+        {{role.role_name}}
+    </a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>You are not playing any game at the moment</p>
+{% endif %}
+{%endif%}
+
+
+<h3>Games that you have created</h3>
+<!-- Displating all games which the user has created -->
+{% if game_created %}
+    <ul>
+    {% for game in game_created %}
+            Game ID: {{game.id}}
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>You have not created any_game any game at the moment</p>
+{% endif %}
+
+
 <a href="{% url 'game:create_game'%}">Create Game</a>
 <a href="{% url 'game:logout'%}">Logout</a>
 <h3>{{user.user_profile.username}}</h3>

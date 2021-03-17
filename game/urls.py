@@ -9,5 +9,7 @@ urlpatterns = [
     path('login/', views.loginPage, name='login'),
     path('register/', views.registerPage, name='register'),
     path('logout/', views.logoutUser, name='logout'),
-    path('create_game', views.createGame, name='create_game')
+    path('create_game', views.createGame, name='create_game'),
+    path('demand/<int:game_id>', views.createDemand, name='demand'),
+    path('role/<int:role_id>', views.enterGame, name='enterGame')
 ]

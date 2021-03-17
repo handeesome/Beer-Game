@@ -49,4 +49,5 @@ class ExtendedGameCreationForm(forms.Form):
     wholesaler = forms.ModelChoiceField(queryset=User.objects.all().filter(userprofile__is_instructor=False))
     distributor = forms.ModelChoiceField(queryset=User.objects.all().filter(userprofile__is_instructor=False))
     factory = forms.ModelChoiceField(queryset=User.objects.all().filter(userprofile__is_instructor=False), required= True)
+
     
