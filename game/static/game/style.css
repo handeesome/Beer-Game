@@ -8,7 +8,7 @@
 
 body,
 input {
-  font-family: "Poppins", sans-serif;
+  font-family: "Poppins", sans-serif !important;
 }
 
 .title {
@@ -100,14 +100,13 @@ form.sign-form {
   color: #333;
 }
 
-::placeholder {
-  font-weight: 500;
+select {
+  border: 0px solid #eee;
+  border-radius: 55px;
 }
 
-.user-type {
-  font-size: 20px;
-  color: #757575;
-  font-weight: 600;
+::placeholder {
+  font-weight: 500;
 }
 
 .btn {
@@ -159,9 +158,6 @@ form.sign-form {
   z-index: 6;
 }
 
-/*RESPONSIVENESS*/
-
-/*
 @media (max-width: 870px) {
   .container {
     min-height: 800px;
@@ -203,4 +199,171 @@ form.sign-form {
     bottom: 72%;
     left: 50%;
   }
-}*/
+}
+
+/*USER NAVBAR, HOME AND CREATE GAME*/
+
+.body-dash {
+  background-color: #f7f4f4;
+}
+
+.navbar {
+  background-color: #101010;
+}
+
+.navbar-brand {
+  color: white;
+  font-size: 24px;
+  font-weight: 500;
+}
+
+.navbar-nav {
+  align-content: center;
+}
+
+.navbar-nav.navbar-center {
+  position: absolute;
+  left: 50%;
+  transform: translatex(-50%);
+}
+
+.navbar .navbar-nav .nav-item:not(:last-child) .nav-link {
+  border-right: 2px solid #272727;
+}
+
+.nav-brand {
+  font-size: 20px;
+}
+
+.nav-item {
+  width: 120px;
+  text-align: center;
+}
+
+.nav-icons {
+  padding-right: 5px;
+}
+
+.navbar-text {
+  text-decoration: none;
+}
+
+.navbar-text:hover {
+  opacity: 80%;
+}
+
+.header-image {
+  height: 130px;
+  width: auto;
+  background-image: url("img/beer-bkg-dash.jpg");
+  filter: brightness(100%);
+}
+
+.welcome-text {
+  text-align: center; 
+  position: absolute; 
+  top: 50%; 
+  left: 50%; 
+  transform: translate(-50%, -50%); 
+  font-size: 50px; 
+  font-weight: 500; 
+  color: white;
+}
+
+.main-container {
+  padding: 30px;
+}
+
+.game-selector {
+  font-weight: normal;
+}
+
+.game-number-input {
+  width: 50px;
+}
+
+.game-btn {
+  border: none;
+  padding: 5px;
+  border-radius: 5px;
+  background-color: #878787;
+  color: white;
+}
+
+.game-btn:hover {
+  opacity: 90%;
+}
+
+.table-responsive {
+  text-align: center;
+}
+
+table tbody tr:hover {
+  background-color: #f7f7f7;
+}
+
+.game-icon {
+  color: black;
+  opacity: 50%;
+  font-size: 20px;
+}
+
+.game-icon:hover {
+  color: #ff504a;
+  opacity: 100%;
+}
+
+.cu-btns {
+  padding-bottom: 20px;
+}
+
+.cu-btns a {
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  opacity: 95%;
+  text-decoration: none;
+}
+
+.cu-btns a:hover {
+  opacity: 100%;
+  text-decoration: none;
+}
+
+.create-game-form, .demand-form {
+  width: 80%;
+  display: block; 
+  margin-left: auto; 
+  margin-right: auto;
+}
+
+.form-outline {
+  text-align: center;
+}
+
+.form-label {
+  font-weight: 500;
+}
+
+.checkboxes {
+  padding: 30px;
+}
+
+.checkboxes .col {
+  width: 300px;
+}
+
+.game-form-btn{
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.enter-game-btn {
+  background-color: #6996ff;
+}
+
+.enter-game-btn:hover {
+  text-decoration: none !important;
+  color: white;
+}

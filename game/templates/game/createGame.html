@@ -1,31 +1,231 @@
-<form method="POST" action="{% url 'game:create_game' %}">
-    {% csrf_token %}
-    {{form1.as_p}}
-    {{form2.as_p}}
-    <!-- errors from the first form -->
-    <div class="errorlist" style="color: red">
-        {% for field, error in form1.errors.items %}
-        {% if field != '__all__' %}{% endif %} 
-        <br>
-        {{ error | striptags }}
-        <br>
-        {% endfor %}
-    </div>
-    <!-- errors from the second form -->
-    <div class="errorlist" style="color: red">
-        {% for field, error in form2.errors.items %}
-        {% if field != '__all__' %}{% endif %} 
-        <br>
-        {{ error | striptags }}
-        <br>
-        {% endfor %}
-    </div>
+{% load static %}
 
-    <!-- errors specified in the views -->
-    <div class="errorlist" style="color: red">
-        {% for message in messages %}
-          <p id="messages">{{message}}</p>
-        {% endfor %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Setup Games</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="{% static 'game/style.css' %}" />
+</head>
+
+<body class="body-dash">
+
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-md navbar-dark sticky-top">
+        <div class="d-flex w-50">
+            <a class="navbar-brand mr-0" href=""><i class="nav-icons fas fa-beer"></i></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsingNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+        <div class="navbar-collapse collapse justify-content-center" id="collapsingNavbar">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href=""><i class="nav-icons fas fa-plus-circle"></i>Create</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#"><i class="nav-icons fas fa-sign-in-alt"></i>Join</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#"><i class="nav-icons fas fa-eye"></i>Monitor</a>
+                </li>
+            </ul>
+        </div>
+        <span class="navbar-text small text-truncate mt-1 w-50 text-right" ><a href="{% url 'game:logout'%}">Logout</a></span>
+    </nav>
+
+<!-- Main content -->
+<div class="main-container">
+    <h2>Create Game</h2>
+    <p>Fill in the form and submit to create a game.</p>
+
+    <hr>
+
+    <div class="create-game-form form-container py-2">
+        <div class="card rounded-5 border-0 shadow">
+            <div class="card-body p-5">
+
+                <!-- Bootstrap Form -->
+                <form method="POST" action="{% url 'game:create_game' %}" id="gameForm">
+
+                    {% csrf_token %}
+
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-outline">
+                                <label class="form-label">Number of weeks</label>
+                                {{form1.nr_rounds}}
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="form-outline">
+                                <label class="form-label">Delay</label>
+                                {{form1.info_delay}}
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="form-outline">
+                                <label class="form-label">Holding Cost</label>
+                                {{form1.holding_cost}}
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="form-outline">
+                                <label class="form-label">Backlog Cost</label>
+                                {{form1.backlog_cost}}
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="form-outline">
+                                <label class="form-label">Starting Inventory</label>
+                                {{form1.starting_inventory}}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="checkboxes row">
+                        <div class="col">
+                          <div class="form-outline">
+                              <div class="form-check">
+                                <label class="form-label">{{form1.distributor_present}} Has Distributor </label>
+                                    
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col">
+                          <div class="form-outline">
+                              <div class="form-check">
+                                <label class="form-label">{{form1.wholesaler_present}} Has Wholesaler </label>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-outline">
+                                <label class="form-label">Factory</label>
+                                {{form2.factory}}
+                            </div>
+                        </div>
+
+                        <div class="col">
+                                <div class="form-outline">
+                                <label class="form-label">Distributor</label>
+                                {{form2.distributor}}
+                            </div>
+                        </div>
+
+                        <div class="col">
+                          <div class="form-outline">
+                                <label class="form-label">Wholesaler</label>
+                                {{form2.wholesaler}}
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="form-outline">
+                                <label class="form-label">Retailer</label>
+                                {{form2.retailer}}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Error handling -->
+                    <!-- errors from the first form -->
+                    <div class="errorlist" style="color: red">
+                        {% for field, error in form1.errors.items %}
+                        {% if field != '__all__' %}{% endif %} 
+                        <br>
+                        {{ error | striptags }}
+                        <br>
+                        {% endfor %}
+                    </div>
+                    <!-- errors from the second form -->
+                    <div class="errorlist" style="color: red">
+                        {% for field, error in form2.errors.items %}
+                        {% if field != '__all__' %}{% endif %} 
+                        <br>
+                        {{ error | striptags }}
+                        <br>
+                        {% endfor %}
+                    </div>
+
+                    <!-- errors specified in the views -->
+                    <div class="errorlist" style="color: red">
+                        {% for message in messages %}
+                          <p id="messages">{{message}}</p>
+                        {% endfor %}
+                    </div>
+
+                    <div class="row" style="padding-top: 50px;">
+                        <div class="col">
+                            <a href="/" class="game-form-btn btn btn-primary btn-block" style="background-color: #ff625c; font-size: 18px;"><i class="nav-icons fas fa-ban"></i>Cancel</a>
+                        </div>
+
+                        <div class="col">
+                            <input type="submit" class="game-form-btn btn btn-primary btn-block" style="background-color: #6996ff; font-size: 18px; width: 150px;" value="+ Create"/>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
-    <input type="submit" value="Create">
-</form>
+</div>
+
+<script>
+// Checks whether distributor or wholesaler are selected and disables/enables the selectors
+function check_distributor() {
+    var check1 = document.getElementById("id_distributor_present");
+    if (check1.checked) {
+        document.getElementById('id_distributor').disabled = false;
+    }
+    else {
+        document.getElementById('id_distributor').disabled = true;
+    }
+} 
+
+function check_wholesaler() {
+    var check2 = document.getElementById('id_wholesaler_present');
+    if (check2.checked) {
+        document.getElementById('id_wholesaler').disabled = false;
+    }
+    else {
+        document.getElementById('id_wholesaler').disabled = true;
+    }
+}
+
+// When a player is already selected, it becomes disabled in other selectors
+const selects = document.querySelectorAll('select');
+selects.forEach((elem) => {
+    elem.addEventListener('change', (event) => {
+        let values = Array.from(selects).map(select => select.value);
+        for (let select of selects) {
+            select.querySelectorAll('option').forEach((option) => {
+                let value = option.value;
+                if (value &&    value !== select.value && values.includes(value)) {
+                    option.disabled = true;
+                } else {
+                    option.disabled = false;
+                }
+            });
+        }
+    });
+});
+</script>

@@ -102,3 +102,14 @@ dist
 
 # TernJS port file
 .tern-port
+
+# Virtual Environment
+env/
+env
+
+# Cache files
+# mysite/__pycache__
+# game/__pycache__
+# game/migrations/__pycache__
+
+# should ignore migrations but not __init__.py

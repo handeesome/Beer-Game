@@ -1,41 +1,131 @@
-{% load static %}
+{% extends 'game/navbar.html' %}
 
-<h1>Main Page</h1>
-<h2>{{message}}</h2>
+{% block content %}
+<div class="header-image">
+    <!-- Idk why it doesn't display username -->
+    <p class="welcome-text">Welcome {{user.user_profile.username}}</p>
+</div>
 
-{%if user.is_instructor == false%}
-<h3>Games that you are playing</h3>
-<!-- Displating all roles which the user is playing -->
-{% if list_roles %}
-    <ul>
-    {% for role in list_roles %}
-        {% for game in role.game_set.all%}
-            Game ID: {{game.id}}
-        {%endfor%}
-    <li><a href="{% url 'game:enterGame' role.id %}">
-        {{role.role_name}}
-    </a></li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>You are not playing any game at the moment</p>
-{% endif %}
-{%endif%}
+<!-- Main content -->
+<div class="main-container">
+    <h2>All Games</h2>
 
+    <hr>
 
-<h3>Games that you have created</h3>
-<!-- Displating all games which the user has created -->
-{% if game_created %}
-    <ul>
-    {% for game in game_created %}
-            Game ID: {{game.id}}
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>You have not created any_game any game at the moment</p>
-{% endif %}
+    <div class="form-container py-2">
+        <div class="card rounded-5 border-0 shadow">
+            <div class="card-body p-5">
 
+                <!-- REGISTERED GAMES -->
+                {%if user.is_instructor == false%}
+                    <h2 style="text-align: left; padding-bottom: 30px;">Registered Games</h2>
 
-<a href="{% url 'game:create_game'%}">Create Game</a>
-<a href="{% url 'game:logout'%}">Logout</a>
-<h3>{{user.user_profile.username}}</h3>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Game ID</th>
+                                    <th>Role</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                {% if list_roles %}
+                                    {% for role in list_roles %}
+                                        {% for game in role.game_set.all%}
+                                            <tr>
+                                                <th scope="row">{{game.id}}</td>
+                                                <td>{{game.info_delay}}</td>
+                                                <td>{{role.role_name}}</td>
+                                                <td>
+                                                    <a href="{% url 'game:enterGame' role.id %}" class="enter-game-btn game-btn "><i class="nav-icons fas fa-sign-in-alt"></i>Enter Game</a></td>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    {% endfor %}
+                                {% else %}
+                                    <p>There are no games to display</p>
+                                {% endif %}
+                            </tbody>
+                        </table>
+                    </div>
+
+                <!-- CREATED GAMES -->
+
+                    <h2 style="text-align: left; padding-bottom: 30px; padding-top: 50px;">Created Games</h2>
+                {% endif %}
+
+                <div class="cu-btns">
+                    <a href="{% url 'game:create_game'%}" style="background-color: #59bd60;"><i class="nav-icons fas fa-plus-circle"></i>Create Game</a>
+                </div>
+
+                <!--  Bootstrap table-->
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                            <!-- Columns based on the screenshot prof. Chankov shows
+                                but could be customized according to the game model -->
+                                <th scope="col">ID</th>
+                                <th scope="col">Delay</th>
+                                <th scope="col">Has Wholesaler</th>
+                                <th scope="col">Has Distributor</th>
+                                <th scope="col">Holding Cost</th>
+                                <th scope="col">Backlog Cost</th>
+                                <th scope="col">Demand Pattern</th>
+                                <th scope="col">Current Cost</th>
+                                <th scope="col">Current Week</th>
+                                <th scope="col">Week to Stop</th>
+                                <th scope="col">Reset</th>
+                                <th scope="col">Freeze</th>
+                                <!-- Players should show a pop-up modal with the player names, roles and passwords -->
+                                <th scope="col">Players</th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            {% if game_created %}
+                                {% for game in game_created %}
+                                <tr>
+                                    <th scope="row">{{game.id}}</td>
+                                    <td>{{game.info_delay}}</td>
+                                    <td>{% if game.wholesaler_present == True %} Yes {% else %} No {% endif %}</td>
+                                    <td>{% if game.distributor_present == True %} Yes {% else %} No {% endif %}</td> 
+                                    <td>{{game.holding_cost}}</td> 
+                                    <td>{{game.backlog_cost}}</td> 
+                                    <td>0</td>  <!-- demand pattern -->
+                                    <td>0</td>  <!-- current cost -->
+                                    <td>{{game.rounds_completed}}</td> 
+                                    <td>{{game.nr_rounds}}</td>
+                                    <td>
+                                        <button class="game-btn">Reset</button>
+                                    </td>
+                                    <td>
+                                        <button class="game-btn">Freeze</button> 
+                                    </td>
+                                    <td>
+                                        <button class="game-btn">Players</button> 
+                                    </td>
+                                    <td>
+                                        <a href="" class="game-icon"><i class="fas fa-trash"></i></a>
+                                    </td>
+                                    <td>
+                                        <a href="#" class="game-icon"><i class="fas fa-edit"></i></i></a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            {% else %}
+                                <p>There are no games to display</p>
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

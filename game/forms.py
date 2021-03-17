@@ -34,10 +34,22 @@ class UserProfileForm(ModelForm):
 
 
 class GameCreationForm(forms.ModelForm):
-	class Meta:
-		model = Game
-		fields = '__all__'
-		exclude = ('admin','roles')
+    class Meta:
+        model = Game
+        fields = '__all__'
+        exclude = ('admin','roles')
+
+        widgets ={
+            'nr_rounds': forms.NumberInput(attrs={'class':'form-control'}),
+            'info_delay': forms.NumberInput(attrs={'class':'form-control'}),
+            'holding_cost': forms.NumberInput(attrs={'class':'form-control'}),
+            'backlog_cost': forms.NumberInput(attrs={'class':'form-control'}),
+            'starting_inventory': forms.NumberInput(attrs={'class':'form-control'}),
+
+            'distributor_present': forms.CheckboxInput(attrs={'class':'form-check-input', 'onclick':'check_distributor()'}),
+            'wholesaler_present': forms.CheckboxInput(attrs={'class':'form-check-input', 'onclick':'check_wholesaler()'}),
+        }
+    
 
 
 # created a custom form instead of using a model form
@@ -45,9 +57,7 @@ class GameCreationForm(forms.ModelForm):
 # exist at first, that's why most of the data will be taken
 # from the same as the Game model itself
 class ExtendedGameCreationForm(forms.Form):
-    retailer = forms.ModelChoiceField(queryset=User.objects.all().filter(userprofile__is_instructor=False), required=True)
-    wholesaler = forms.ModelChoiceField(queryset=User.objects.all().filter(userprofile__is_instructor=False))
-    distributor = forms.ModelChoiceField(queryset=User.objects.all().filter(userprofile__is_instructor=False))
-    factory = forms.ModelChoiceField(queryset=User.objects.all().filter(userprofile__is_instructor=False), required= True)
-
-    
+    retailer = forms.ModelChoiceField(queryset=User.objects.all().filter(userprofile__is_instructor=False), required=True, widget=forms.Select(attrs={'class':'form-select'}))
+    wholesaler = forms.ModelChoiceField(queryset=User.objects.all().filter(userprofile__is_instructor=False), widget=forms.Select(attrs={'class':'form-select'}))
+    distributor = forms.ModelChoiceField(queryset=User.objects.all().filter(userprofile__is_instructor=False), widget=forms.Select(attrs={'class':'form-select'}))
+    factory = forms.ModelChoiceField(queryset=User.objects.all().filter(userprofile__is_instructor=False), required= True, widget=forms.Select(attrs={'class':'form-select'}))
