@@ -58,6 +58,6 @@ class GameCreationForm(forms.ModelForm):
 # from the same as the Game model itself
 class ExtendedGameCreationForm(forms.Form):
     retailer = forms.ModelChoiceField(queryset=User.objects.all().filter(userprofile__is_instructor=False), required=True, widget=forms.Select(attrs={'class':'form-select'}))
-    wholesaler = forms.ModelChoiceField(queryset=User.objects.all().filter(userprofile__is_instructor=False), widget=forms.Select(attrs={'class':'form-select'}))
-    distributor = forms.ModelChoiceField(queryset=User.objects.all().filter(userprofile__is_instructor=False), widget=forms.Select(attrs={'class':'form-select'}))
+    wholesaler = forms.ModelChoiceField(queryset=User.objects.all().filter(userprofile__is_instructor=False), required = False, widget=forms.Select(attrs={'class':'form-select'}))
+    distributor = forms.ModelChoiceField(queryset=User.objects.all().filter(userprofile__is_instructor=False), required = False, widget=forms.Select(attrs={'class':'form-select'}))
     factory = forms.ModelChoiceField(queryset=User.objects.all().filter(userprofile__is_instructor=False), required= True, widget=forms.Select(attrs={'class':'form-select'}))

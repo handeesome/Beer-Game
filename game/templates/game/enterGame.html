@@ -180,21 +180,61 @@
                         <thead>
                             <tr>
                                 {% if role.role_name == 'factory' %}
-                                    <th>Retailer</th>
-                                    <th>Wholesaler</th>
-                                    <th>Distributor</th>
+                                    {%if game.distributor_present%}
+                                        {%if game.wholesaler_present%}
+                                            <th>Retailer</th>
+                                            <th>Wholesaler</th>
+                                            <th>Distributor</th>
+                                        {%else%}
+                                            <th>Retailer</th>
+                                            <th>Distributor</th>
+                                        {%endif%}
+                                    {%else%}
+                                        {%if game.wholesaler_present%}
+                                            <th>Retailer</th>
+                                            <th>Wholesaler</th>
+                                        {%else%}
+                                            <th>Retailer</th>
+                                        {%endif%}
+                                    {%endif%}
                                 {% elif role.role_name == 'distributor' %}
-                                    <th>Retailer</th>
-                                    <th>Wholesaler</th>
-                                    <th>Factory</th>
+                                    {%if game.wholesaler_present%}
+                                        <th>Retailer</th>
+                                        <th>Wholesaler</th>
+                                        <th>Factory</th>
+                                    {%else%}
+                                        <th>Retailer</th>
+                                        <th>Factory</th>
+                                    {%endif%}
+                                    
                                 {% elif role.role_name == 'wholesaler' %}
-                                    <th>Retailer</th>
-                                    <th>Distributor</th>
-                                    <th>Factory</th>
+                                    {%if game.distributor_present%}
+                                        <th>Retailer</th>
+                                        <th>Distributor</th>
+                                        <th>Factory</th>
+                                    {%else%}
+                                        <th>Retailer</th>
+                                        <th>Factory</th>
+                                    {%endif%}
                                 {% else %}
-                                    <th>Wholesaler</th>
-                                    <th>Distributor</th>
-                                    <th>Factory</th>
+                                
+                                    {%if game.distributor_present%}
+                                        {%if game.wholesaler_present%}
+                                            <th>Wholesaler</th>
+                                            <th>Distributor</th>
+                                            <th>Factory</th>
+                                        {%else%}
+                                            <th>Distributor</th>
+                                            <th>Factory</th>
+                                        {%endif%}
+                                    {%else%}
+                                        {%if game.wholesaler_present%}
+                                            <th>Wholesaler</th>
+                                            <th>Factory</th>
+                                        {%else%}
+                                            <th>Factory</th>
+                                        {%endif%}
+                                    {%endif%}
                                 {% endif %}
                             </tr>
                         </thead>
