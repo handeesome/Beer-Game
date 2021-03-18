@@ -1,6 +1,3 @@
-
-
-
 {% extends 'game/navbar.html' %}
 
 {% block content %}
@@ -15,9 +12,9 @@
             <div class="card-body p-5">
                 <p>
                     Update the new custom demand by pasting comma delimited weekly demand
-                    in the textbox below. You need provide a demand stream for <b>{{game.nr_rounds}}</b> weeks, each week 
-                    seperated by a comma.
-                    Note: All demand values should be integers and do not include any space or hit enter after the last week 
+                    in the textbox below. You need to provide a demand stream for <b>{{game.nr_rounds}}</b> weeks, each week 
+                    seperated by a comma. <br>
+                    <b>Note:</b> All demand values should be integers and do not include any space or hit enter after the last week 
                 </p>
 
                 <textarea name="demand" class="form-control" form="usrform">5, 4, 2, 3</textarea>

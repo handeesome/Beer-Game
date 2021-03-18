@@ -74,6 +74,20 @@ def home(request):
     context={'message': 'Welcome to the main Page', 'list_roles': list_roles, 'game_created': game_created, 'user': request.user.userprofile}
     return render(request, 'game/main.html', context)
 
+@login_required(login_url='game:login')
+def home(request):
+    game_created = Game.objects.filter(admin=request.user.userprofile)
+    context={'game_created': game_created, 'user': request.user.userprofile}
+    return render(request, 'game/main.html', context)
+
+def assignedGames(request):
+    list_roles = Role.objects.filter(userprofile=request.user.userprofile)
+    for role in list_roles:
+        print(role.role_name)
+
+    context={'list_roles': list_roles, 'user': request.user.userprofile}
+    return render(request, 'game/assignedGames.html', context)
+
 
 @login_required(login_url='game:login')
 def createGame(request):
@@ -184,7 +198,7 @@ def createGame(request):
         form2 = ExtendedGameCreationForm()
         form1 = GameCreationForm()	
     
-    context = {'form1':form1, 'form2':form2}
+    context = {'form1':form1, 'form2':form2, 'user': request.user.userprofile}
     return render(request, 'game/createGame.html', context)
 
 
@@ -205,7 +219,7 @@ def createDemand(request, game_id):
             k+=1
         return redirect('game:home')
 
-    context = {'game': game}
+    context = {'game': game, 'user': request.user.userprofile}
     return render(request, 'game/demandPattern.html', context)
 
 

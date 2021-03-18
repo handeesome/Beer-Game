@@ -1,9 +1,283 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Beer Distribution Game</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{% static 'game/game-view-style.css' %}" />
+</head>
+
+<body>
+    <div id="container-game-view">
+        <!-- SCREEN 1 -->
+        <div id="div1" class="quadrant"> 
+            <div class="card game-view-quadrant rounded-5 border-0 shadow-lg">
+                <h5><span style="color: #214da3; font-weight: 700;">{{role.role_name}} - GAME {{game.id}} - WEEK {{current_week_role.number}}</span><br>INPUT SCREEN</h5>
+                
+                {% if game.is_completed == False %}
+                    {% if current_week_role.order_placed == -1 %}
+                        <div class="table-cont">
+                            <table class="table-input-screen">
+                                <tr>
+                                    {% if downstream_role.role_name %}
+                                        <td>
+                                            Demand from {{downstream_role.role_name}}:
+                                        </td>
+                                    {% else %}
+                                        <td>
+                                            Demand from {{downstream_role}}:
+                                        </td>
+                                    {% endif %}
+                                    <td class="value" id="demand">
+                                        {{current_week_role.demand}}
+                                    </td>
+                                    <td>
+                                        Beginning Inventory:
+                                    </td>
+                                    <td class="value" id="inventory">
+                                        {{current_week_role.inventory}}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="border-bottom: 1px solid grey;">
+                                        Backorder:
+                                    </td>
+                                    <td class="value" id="backlog">
+                                        {{current_week_role.backlog}}
+                                    </td>
+                                    <td style="border-bottom: 1px solid grey;">
+                                        Incoming Shipment:
+                                    </td>
+                                    <td class="value" id="incoming_shipment">
+                                        {{current_week_role.incoming_shipment}}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        Total Requirements:
+                                    </td>
+                                    <td class="value" id="total_requirements">
+                                        <!-- {{total_requirements}} -->
+                                    </td>
+                                    <td>
+                                        Total Available:
+                                    </td>
+                                    <td class="value" id="total_available">
+                                        <!-- {{total_available}} -->
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                
+
+                       <!--  <div class="s1-details">
+                            Units Shipped to Retailer this week: {units} <br>
+                            Ending inventory: {{new_inventory}} <br>
+                        </div> -->
+                        
+                        <div class="my-3">Place your order: </div>
+                        <form class="form-inline justify-content-center">
+                            <div class="form-group mx-sm-3 mb-2">
+                                <input type="number" name="order_placed" id="order_placed" class="form-control text-center">
+                            </div>
+                            <input type="submit" class="btn btn-primary mb-2"/>
+                        </form>
+
+                    {%else%}
+                    <div class="order-is-placed">
+                        <!-- display order to upstream, order shipped to downstream, current inventory, current cost -->
+                        Your order is: {{current_week_role.order}} <br>
+                        Your shipment is: <br>
+                        Inventory at week {{current_week_role.number}}: <br>
+                        Current cost: <br>
+
+                        <p>Please wait until all orders have been placed to procedd to the next week.</p>
+                    </div>
+                {%endif%}
+            {%endif%}
+            </div>
+        </div>
+
+        <!-- SCREEN 2 -->
+        <div id="div2" class="quadrant">
+            <div class="card game-view-quadrant rounded-5 border-0 shadow-lg">
+                <h5>{{role.role_name}} INFORMATION FOR THE PAST 10 WEEKS</h5>
+                <div class="table-cont">
+                    <table class="table-input-screen table-weeks" id="table-weeks" border="1">
+                        <thead>
+                            <tr>
+                                <th>Number</th>
+                                <th>Inventory</th>
+                                <th>Backlog</th>
+                                <th >Demand</th>
+                                <th>Incoming Shipment</th>
+                                <th>Outgoing Shipment</th>
+                                <th>Order Placed</th>
+                                <th>Cost</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            {% if last_weeks %}
+                                {% for week in last_weeks %}
+                                        <tr>
+                                            <td>{{week.number}}</td>
+                                            <td>{{week.inventory}}</td>
+                                            <td>{{week.backlog}}</td>
+                                            <td>{{week.demand}}</td>
+                                            <td>{{week.incoming_shipment}}</td>
+                                            <td>{{week.outgoing_shipment}}</td>
+                                            <td>{{week.order_placed}}</td>
+                                            <td>{{week.cost}}</td>
+                                        </tr>
+                                {% endfor %}
+                                <!-- Showing even the last week if the game is completed -->
+                                {%if completed == True %}
+                                <tr>
+                                    <td>{{current_week_role.number}}</td>
+                                    <td>{{current_week_role.inventory}}</td>
+                                    <td>{{current_week_role.backlog}}</td>
+                                    <td>{{current_week_role.demand}}</td>
+                                    <td>{{current_week_role.incoming_shipment}}</td>
+                                    <td>{{current_week_role.outgoing_shipment}}</td>
+                                    <td>{{current_week_role.order_placed}}</td>
+                                    <td>{{current_week_role.cost}}</td>
+                                </tr>
+                                {%endif%}
+                            {% else %}
+                                <p>There are no weeks</p>
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- SCREEN 3 -->
+        <div id="div3" class="quadrant">
+            <div class="card game-view-quadrant rounded-5 border-0 shadow-lg">
+                <!-- Should also display current week -->
+                <h5>STATUS OF OTHER SUPPLY CHAIN MEMBERS - WEEK {{current_week_role.number}}</h5>
+                <div class="order-status">
+                    <p>Once all players have placed an order, you can proceed to the next week.</p>
+                    <table class="status-table" style="text-align: left;">
+                        <thead>
+                            <tr>
+                                {% if role.role_name == 'factory' %}
+                                    <th>Retailer</th>
+                                    <th>Wholesaler</th>
+                                    <th>Distributor</th>
+                                {% elif role.role_name == 'distributor' %}
+                                    <th>Retailer</th>
+                                    <th>Wholesaler</th>
+                                    <th>Factory</th>
+                                {% elif role.role_name == 'wholesaler' %}
+                                    <th>Retailer</th>
+                                    <th>Distributor</th>
+                                    <th>Factory</th>
+                                {% else %}
+                                    <th>Wholesaler</th>
+                                    <th>Distributor</th>
+                                    <th>Factory</th>
+                                {% endif %}
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr>
+                            {% for i in other_weeks %}
+                                {% if i.order_placed == -1 %}
+                                    <td style="color: red;">Order not placed</td>
+                                {% else %}
+                                    <td style="color: green;">Order placed</td>
+                                {%endif%}
+                            {% endfor %}
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Display this once all orders have been placed -->
+                <!-- <div class="all-orders-placed">
+                    <p>All orders have been placed for week {{current_week_role.number}}. You can now proceed to the next week.</p>
+                    <a href="" type="button" class="btn btn-success">Next Week >></a>
+                </div> -->
+                
+            </div>
+            
+        </div>
+
+        <!-- SCREEN 4 -->
+        <div id="div4" class="quadrant">
+            <div class="card game-view-quadrant rounded-5 border-0 shadow-lg">
+                <h5>INVENTORY AND STATUS PLOTS - {{role.role_name}} </h5>
+                <div class="plot-buttons">
+                    
+                    <button class="btn btn-primary mb-2" id="plot-btn">Demand Plot</button>
+                    <button class="btn btn-primary mb-2" id="plot-btn">Order Plot</button>
+                    <button class="btn btn-primary mb-2" id="plot-btn">Inv/Backorder Plot</button>
+                    <button class="btn btn-primary mb-2" id="plot-btn">Plot All</button>
+                </div>
+
+                <h5>SUPPLY CHAIN SETTINGS - {{role.role_name}}</h5>
+                <div class="supply-chain-settings">
+                    <table class="settings-table">
+                        <tr>
+                            <td>Holding cost:</td>
+                            <td id="val">{{game.holding_cost}}</td>
+                        </tr>
+                        <tr>
+                            <td>Backorder cost:</td>
+                            <td id="val">{{game.backlog_cost}}</td>
+                        </tr>
+                        <tr>
+                            <td>Downstream Player:</td>
+                            <td id="val">{{downstream_role}}</td>
+                        </tr>
+                        <tr>
+                            <td>Upstream Player:</td>
+                            <td id="val"></td>
+                        </tr>
+                        <tr>
+                            <td>Shipping Delay:</td>
+                            <td id="val">{{game.info_delay}} weeks</td>
+                        </tr>
+                        <tr>
+                            <td>Information Delay:</td>
+                            <td id="val">{{game.info_delay}} weeks</td>
+                        </tr>
+                    </table>
+                </div>
+            <!-- {{ graph1|safe }}
+            {{ graph2|safe }}
+            {{ graph3|safe }}
+            {{ graph4|safe }}
+            {{ graph5|safe }}
+            {{ graph6|safe }} --> 
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
+
+
 
 <!-- {%for week in last_weeks%}
 {{week.number}}
 {%endfor%}
 {{current_week_role.number}} -->
-{{game.id}}
+<!-- {{game.id}}
 {{role.role_name}}
 <h1>{{message}}</h1>
 {%if game.is_completed == false %}
@@ -17,20 +291,20 @@
     <br>
     On backorder: {{current_week_role.backlog}}
     <br>
-    Total requirements: See comment
+    Total requirements: See comment -->
     <!-- Finding a way to add this values in frontend, otherwise we do it from backend
     Total requirements: current_week_role.backlog, current_week_role.demand-->
-    <br>
+<!--     <br>
     <br>
 
     Beginning inventory: {{current_week_role.inventory}}
     <br>
     Incoming shipment: {{current_week_role.incoming_shipment}}
     <br>
-    Total available:
+    Total available: -->
     <!-- Finding a way to add this values in frontend, otherwise we do it from backend
     Total available:current_week.inventory, current_week.incoming_shipment -->
-    <br>
+<!--     <br>
     <br>
 
 
@@ -44,12 +318,12 @@
 {%else%}
 You have ordered {{current_week_role.order}}
 {%endif%}
-{%endif%}
+{%endif%} -->
 
 
 
 <!-- Second part -->
-<h1>Weeks</h1>
+<!-- <h1>Weeks</h1>
 <table class="table">
     <thead>
         <tr>
@@ -77,9 +351,9 @@ You have ordered {{current_week_role.order}}
                         <td>{{week.order_placed}}</td>
                         <td>{{week.cost}}</td>
                     </tr>
-            {% endfor %}
+            {% endfor %} -->
             <!-- Showing even the last week if the game is completed -->
-            {%if completed == True %}
+<!--             {%if completed == True %}
             <tr>
                 <td>{{current_week_role.number}}</td>
                 <td>{{current_week_role.inventory}}</td>
@@ -95,16 +369,16 @@ You have ordered {{current_week_role.order}}
             <p>There are no weeks</p>
         {% endif %}
     </tbody>
-</table>
+</table> -->
 
 
 <!-- Third part -->
-<h1>Some plots and general info of the game</h1>
+<!-- <h1>Some plots and general info of the game</h1>
 Holding cost: {{game.holding_cost}}
-etc. etc.
+etc. etc. -->
 
 <!-- Fourth part -->
-<h1>Status of others</h1>
+<!-- <h1>Status of others</h1>
 
 
 <table class="table">
@@ -142,14 +416,3 @@ etc. etc.
         </tr>
     </tbody>
 </table>
-
-
-
-
-{{ graph1|safe }}
-{{ graph2|safe }}
-{{ graph3|safe }}
-{{ graph4|safe }}
-{{ graph5|safe }}
-{{ graph6|safe }}
-

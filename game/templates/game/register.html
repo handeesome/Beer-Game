@@ -8,6 +8,8 @@
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css" crossorigin="anonymous">
 	<link rel="stylesheet" href="{% static 'game/style.css' %}" />
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<link rel="stylesheet" href="{% static 'game/style.css' %}" />
+	
 	<title>User Registration</title>
 </head>
 
@@ -25,7 +27,7 @@
 		            		{{profile_form.is_instructor}} Instructor
 		            	</label>
 		            	<label class="user-type">
-		            		<input type="checkbox" name="is_student" value="Student"> Student
+		            		<input type="checkbox" name="is_student" value="Student" form="form-check-input"> Student
 		            	</label>
 		            </div>
 

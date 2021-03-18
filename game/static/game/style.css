@@ -358,12 +358,3 @@ table tbody tr:hover {
   padding: 10px;
   border-radius: 5px;
 }
-
-.enter-game-btn {
-  background-color: #6996ff;
-}
-
-.enter-game-btn:hover {
-  text-decoration: none !important;
-  color: white;
-}

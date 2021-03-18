@@ -1,48 +1,6 @@
-{% load static %}
+{% extends 'game/navbar.html' %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <title>Setup Games</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-
-    <link rel="stylesheet" href="{% static 'game/style.css' %}" />
-</head>
-
-<body class="body-dash">
-
-    <!-- Navigation Bar -->
-    <nav class="navbar navbar-expand-md navbar-dark sticky-top">
-        <div class="d-flex w-50">
-            <a class="navbar-brand mr-0" href=""><i class="nav-icons fas fa-beer"></i></a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsingNavbar">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-        </div>
-        <div class="navbar-collapse collapse justify-content-center" id="collapsingNavbar">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" href=""><i class="nav-icons fas fa-plus-circle"></i>Create</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#"><i class="nav-icons fas fa-sign-in-alt"></i>Join</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#"><i class="nav-icons fas fa-eye"></i>Monitor</a>
-                </li>
-            </ul>
-        </div>
-        <span class="navbar-text small text-truncate mt-1 w-50 text-right" ><a href="{% url 'game:logout'%}">Logout</a></span>
-    </nav>
+{% block content %}
 
 <!-- Main content -->
 <div class="main-container">
@@ -229,3 +187,5 @@ selects.forEach((elem) => {
     });
 });
 </script>
+
+{% endblock %}

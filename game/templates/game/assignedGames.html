@@ -1,0 +1,56 @@
+{% extends 'game/navbar.html' %}
+
+{% block content %}
+
+<!-- Main content -->
+<div class="main-container">
+    <h2>Assigned Games</h2>
+    <p>Here you can view and join all assigned games to you.</p>
+
+    <hr>
+
+    <div class="form-container py-2">
+        <div class="card rounded-5 border-0 shadow">
+            <div class="card-body p-5">
+                <!-- REGISTERED GAMES -->
+                
+                    <h2 style="text-align: left; padding-bottom: 30px;">Registered Games</h2>
+
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Game ID</th>
+                                    <th>Current Round</th>
+                                    <th>Role Name</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                {% if list_roles %}
+                                    {% for role in list_roles %}
+                                        {% for game in role.game_set.all%}
+                                            <tr>
+                                                <th scope="row">{{game.id}}</td>
+                                                <td >{{game.rounds_completed}}</td>
+                                                <td style="text-transform: uppercase;">{{role.role_name}}</td>
+                                                <td>
+                                                    <a href="{% url 'game:enterGame' role.id %}"><i class="nav-icons fas fa-sign-in-alt"></i>Enter Game</a></td>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    {% endfor %}
+                                {% else %}
+                                    <p>There are no games to display</p>
+                                {% endif %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
