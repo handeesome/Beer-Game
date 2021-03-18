@@ -68,18 +68,18 @@ class GameRole(models.Model):
     """
     A class that stores user ids and role ids
     """
-    game = models.ForeignKey(Game, on_delete=models.PROTECT, db_column='game_id')
-    role = models.ForeignKey(Role, on_delete=models.PROTECT, db_column='role_id')
+    game = models.ForeignKey(Game, on_delete=models.CASCADE, db_column='game_id')
+    role = models.ForeignKey(Role, on_delete=models.CASCADE, db_column='role_id')
 
 
 class UserRole(models.Model):
     """
     A class that stores user ids and role ids
     """
-    user = models.ForeignKey(UserProfile, on_delete=models.PROTECT, db_column='user_id')
-    role = models.ForeignKey(Role, on_delete=models.PROTECT, db_column='role_id')
+    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, db_column='user_id')
+    role = models.ForeignKey(Role, on_delete=models.CASCADE, db_column='role_id')
 
 
 class RoleWeek(models.Model):
-    role = models.ForeignKey(Role, on_delete=models.PROTECT, db_column='role_id')
-    week = models.ForeignKey(Week, on_delete=models.PROTECT, db_column='week_id')   
+    role = models.ForeignKey(Role, on_delete=models.CASCADE, db_column='role_id')
+    week = models.ForeignKey(Week, on_delete=models.CASCADE, db_column='week_id')   

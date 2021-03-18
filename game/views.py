@@ -3,6 +3,9 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.utils import timezone
 import datetime
+import matplotlib.pyplot as plt
+from io import StringIO
+import numpy as np
 
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -10,6 +13,7 @@ from django.contrib import messages
 
 from .models import *
 from .forms import *
+
 
 def registerPage(request):
     if request.method == "POST":
@@ -205,6 +209,100 @@ def createDemand(request, game_id):
     return render(request, 'game/demandPattern.html', context)
 
 
+# helper function for constructing the graph
+def return_graph(last_weeks, dataType):
+    inventories = []
+    demands = []
+    incoming_shipments = []
+    outgoing_shipments = []
+    orders = []
+    weeknr = []
+    if(dataType == 'inventory'):
+        i = 0
+        for week in last_weeks:
+            inventories.append(week.inventory-week.backlog)
+            i+=1
+            weeknr.append(i)
+        fig = plt.figure()
+        plt.ylabel('Inventory')
+        # plt.xlabel('Week Nr')
+        plt.title('Inventory')
+        plt.plot(weeknr,inventories)
+    elif dataType == 'demand':
+        i = 0
+        for week in last_weeks:
+            demands.append(week.demand)
+            i+=1
+            weeknr.append(i)
+        fig = plt.figure()
+        plt.ylabel('Demand')
+        # plt.xlabel('Week Nr')
+        plt.title('Demand')
+        plt.plot(weeknr,demands)
+    elif dataType == 'incoming_shipment':
+        i = 0
+        for week in last_weeks:
+            incoming_shipments.append(week.incoming_shipment)
+            i+=1
+            weeknr.append(i)
+        fig = plt.figure()
+        plt.ylabel('Incoming Shipment')
+        # plt.xlabel('Week Nr')
+        plt.title('Incoming Shipment')
+        plt.plot(weeknr,incoming_shipments)
+    elif dataType == 'outgoing_shipment':
+        i = 0
+        for week in last_weeks:
+            outgoing_shipments.append(week.outgoing_shipment)
+            i+=1
+            weeknr.append(i)
+        fig = plt.figure()
+        plt.ylabel('Outgoing Shipment')
+        # plt.xlabel('Week Nr')
+        plt.title('Outgoing Shipment')
+        plt.plot(weeknr,outgoing_shipments)
+    elif dataType == 'order':
+        i = 0
+        for week in last_weeks:
+            orders.append(week.order_placed)
+            i+=1
+            weeknr.append(i)
+        fig = plt.figure()
+        plt.ylabel('Order')
+        # plt.xlabel('Week Nr')
+        plt.title('Order')
+        plt.plot(weeknr,orders)
+    else:
+        i = 0
+        for week in last_weeks:
+            outgoing_shipments.append(week.outgoing_shipment)
+            demands.append(week.demand)
+            incoming_shipments.append(week.incoming_shipment)
+            inventories.append(week.inventory-week.backlog)
+            orders.append(week.order_placed)
+            i+=1
+            weeknr.append(i)
+        fig = plt.figure()
+        # plt.xlabel('Week Nr')
+        
+        plt.plot(weeknr,inventories, label='Inventory')
+        plt.plot(weeknr,outgoing_shipments, label = 'Outgoing Shipment')
+        plt.plot(weeknr,demands, label= 'Demand')
+        plt.plot(weeknr,incoming_shipments, label = 'Incoming Shipment')
+        plt.plot(weeknr,orders, label = 'Orders')
+        legend = plt.legend(loc='upper center', shadow=True)
+
+    
+
+    imgdata = StringIO()
+    fig.savefig(imgdata, format='svg')
+    imgdata.seek(0)
+
+    data = imgdata.getvalue()
+    return data
+
+
+
 @login_required(login_url='game:login')
 def enterGame(request, role_id):
     message = 'Welcome to the game'
@@ -240,6 +338,15 @@ def enterGame(request, role_id):
         current_week_down = Week.objects.filter(number=current_week_role.number, role__id=downstream_role.id)
     else:
         downstream_role='Consumer'
+
+
+
+    # fig = go.Figure(
+    #     data=[go.Bar(y=[10, 20, 40])],
+    #     layout_title_text="Native Plotly rendering in Dash"
+    # )
+    # graph_div = plotly.offline.plot(fig, auto_open = False, output_type="div")
+
 
     if request.method == "POST":
         if(game.rounds_completed >= game.nr_rounds):
@@ -321,6 +428,25 @@ def enterGame(request, role_id):
     
     context = {'message': message, 'completed': completed, 'role': role, 'upstream_role':upstream_role, 
     'downstream_role': downstream_role,'last_weeks':last_weeks, 'current_week_role': current_week_role,
-    'other_weeks': other_weeks,'game': game}
+    'other_weeks': other_weeks,'game': game, 'graph1': return_graph(last_weeks, 'inventory')
+    , 'graph2': return_graph(last_weeks, 'demand'), 'graph3': return_graph(last_weeks, 'incoming_shipment'), 
+    'graph4': return_graph(last_weeks, 'outgoing_shipment'), 'graph5': return_graph(last_weeks, 'order'), 
+    'graph6': return_graph(last_weeks, 'all')
+    # 'graph_div': graph_div
+    }
     return render(request, 'game/enterGame.html', context)
 
+
+@login_required(login_url='game:login')
+def deleteGame(request, game_id):
+    # delete all the related roles, weeks related to the game
+    game = Game.objects.get(pk=game_id)
+    roles = Role.objects.filter(game__id = game_id)
+    
+    for role in roles:
+        weeks = Week.objects.filter(role__id=role.id)
+        for week in weeks:
+            week.delete()
+        role.delete()
+    game.delete()
+    return redirect('game:home')
