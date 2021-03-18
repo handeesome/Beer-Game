@@ -210,6 +210,7 @@ def createDemand(request, game_id):
         demands = text.split(", ")
         if len(demands) != game.nr_rounds:
             messages.info(request, 'You have not specified all rounds')
+            return HttpResponseRedirect(reverse('game:demand', args=(game_id,)))
         
         k=1
         for customer_demand in demands:
@@ -225,96 +226,97 @@ def createDemand(request, game_id):
 
 # helper function for constructing the graph
 def return_graph(last_weeks, dataType):
-    inventories = []
-    demands = []
-    incoming_shipments = []
-    outgoing_shipments = []
-    orders = []
-    weeknr = []
-    if(dataType == 'inventory'):
-        i = 0
-        for week in last_weeks:
-            inventories.append(week.inventory-week.backlog)
-            i+=1
-            weeknr.append(i)
-        fig = plt.figure()
-        plt.ylabel('Inventory')
-        # plt.xlabel('Week Nr')
-        plt.title('Inventory')
-        plt.plot(weeknr,inventories)
-    elif dataType == 'demand':
-        i = 0
-        for week in last_weeks:
-            demands.append(week.demand)
-            i+=1
-            weeknr.append(i)
-        fig = plt.figure()
-        plt.ylabel('Demand')
-        # plt.xlabel('Week Nr')
-        plt.title('Demand')
-        plt.plot(weeknr,demands)
-    elif dataType == 'incoming_shipment':
-        i = 0
-        for week in last_weeks:
-            incoming_shipments.append(week.incoming_shipment)
-            i+=1
-            weeknr.append(i)
-        fig = plt.figure()
-        plt.ylabel('Incoming Shipment')
-        # plt.xlabel('Week Nr')
-        plt.title('Incoming Shipment')
-        plt.plot(weeknr,incoming_shipments)
-    elif dataType == 'outgoing_shipment':
-        i = 0
-        for week in last_weeks:
-            outgoing_shipments.append(week.outgoing_shipment)
-            i+=1
-            weeknr.append(i)
-        fig = plt.figure()
-        plt.ylabel('Outgoing Shipment')
-        # plt.xlabel('Week Nr')
-        plt.title('Outgoing Shipment')
-        plt.plot(weeknr,outgoing_shipments)
-    elif dataType == 'order':
-        i = 0
-        for week in last_weeks:
-            orders.append(week.order_placed)
-            i+=1
-            weeknr.append(i)
-        fig = plt.figure()
-        plt.ylabel('Order')
-        # plt.xlabel('Week Nr')
-        plt.title('Order')
-        plt.plot(weeknr,orders)
-    else:
-        i = 0
-        for week in last_weeks:
-            outgoing_shipments.append(week.outgoing_shipment)
-            demands.append(week.demand)
-            incoming_shipments.append(week.incoming_shipment)
-            inventories.append(week.inventory-week.backlog)
-            orders.append(week.order_placed)
-            i+=1
-            weeknr.append(i)
-        fig = plt.figure()
-        # plt.xlabel('Week Nr')
-        
-        plt.plot(weeknr,inventories, label='Inventory')
-        plt.plot(weeknr,outgoing_shipments, label = 'Outgoing Shipment')
-        plt.plot(weeknr,demands, label= 'Demand')
-        plt.plot(weeknr,incoming_shipments, label = 'Incoming Shipment')
-        plt.plot(weeknr,orders, label = 'Orders')
-        legend = plt.legend(loc='upper center', shadow=True)
+    if(last_weeks):
+        inventories = []
+        demands = []
+        incoming_shipments = []
+        outgoing_shipments = []
+        orders = []
+        weeknr = []
+        if(dataType == 'inventory'):
+            i = 0
+            for week in last_weeks:
+                inventories.append(week.inventory-week.backlog)
+                i+=1
+                weeknr.append(i)
+            fig = plt.figure()
+            plt.ylabel('Inventory')
+            # plt.xlabel('Week Nr')
+            plt.title('Inventory')
+            plt.plot(weeknr,inventories)
+        elif dataType == 'demand':
+            i = 0
+            for week in last_weeks:
+                demands.append(week.demand)
+                i+=1
+                weeknr.append(i)
+            fig = plt.figure()
+            plt.ylabel('Demand')
+            # plt.xlabel('Week Nr')
+            plt.title('Demand')
+            plt.plot(weeknr,demands)
+        elif dataType == 'incoming_shipment':
+            i = 0
+            for week in last_weeks:
+                incoming_shipments.append(week.incoming_shipment)
+                i+=1
+                weeknr.append(i)
+            fig = plt.figure()
+            plt.ylabel('Incoming Shipment')
+            # plt.xlabel('Week Nr')
+            plt.title('Incoming Shipment')
+            plt.plot(weeknr,incoming_shipments)
+        elif dataType == 'outgoing_shipment':
+            i = 0
+            for week in last_weeks:
+                outgoing_shipments.append(week.outgoing_shipment)
+                i+=1
+                weeknr.append(i)
+            fig = plt.figure()
+            plt.ylabel('Outgoing Shipment')
+            # plt.xlabel('Week Nr')
+            plt.title('Outgoing Shipment')
+            plt.plot(weeknr,outgoing_shipments)
+        elif dataType == 'order':
+            i = 0
+            for week in last_weeks:
+                orders.append(week.order_placed)
+                i+=1
+                weeknr.append(i)
+            fig = plt.figure()
+            plt.ylabel('Order')
+            # plt.xlabel('Week Nr')
+            plt.title('Order')
+            plt.plot(weeknr,orders)
+        else:
+            i = 0
+            for week in last_weeks:
+                outgoing_shipments.append(week.outgoing_shipment)
+                demands.append(week.demand)
+                incoming_shipments.append(week.incoming_shipment)
+                inventories.append(week.inventory-week.backlog)
+                orders.append(week.order_placed)
+                i+=1
+                weeknr.append(i)
+            fig = plt.figure()
+            # plt.xlabel('Week Nr')
 
-    
+            plt.plot(weeknr,inventories, label='Inventory')
+            plt.plot(weeknr,outgoing_shipments, label = 'Outgoing Shipment')
+            plt.plot(weeknr,demands, label= 'Demand')
+            plt.plot(weeknr,incoming_shipments, label = 'Incoming Shipment')
+            plt.plot(weeknr,orders, label = 'Orders')
+            legend = plt.legend(loc='upper center', shadow=True)
 
-    imgdata = StringIO()
-    fig.savefig(imgdata, format='svg')
-    imgdata.seek(0)
 
-    data = imgdata.getvalue()
-    return data
 
+        imgdata = StringIO()
+        fig.savefig(imgdata, format='svg')
+        imgdata.seek(0)
+
+        data = imgdata.getvalue()
+        return data
+    return False
 
 
 @login_required(login_url='game:login')
@@ -328,45 +330,41 @@ def enterGame(request, role_id):
     current_week_up = False
     current_week_down = False
 
+
+
+
     last_weeks = Week.objects.filter(date__lte=timezone.now(), role__id=role_id).order_by('-date')[:11]
     # last_weeks = Week.objects.filter(role__id=role_id).order_by('date')[:10]
     current_week_role = last_weeks[0]
     last_weeks = Week.objects.filter(number__lt=current_week_role.number, role__id = role_id).order_by('date')[:10]
     game.rounds_completed = current_week_role.number
-    if(game.is_completed):
+    if(current_week_role.number == game.nr_rounds and current_week_role.order_placed != -1):
         message = 'Game completed'
         completed = True
     #find whether other player have ordered in this current round
     other_weeks = Week.objects.filter(role__game=game, number=current_week_role.number).exclude(role__id = role_id).order_by('id')
 
+
+
+    total_requirements = current_week_role.demand + current_week_role.backlog
+    total_available = current_week_role.inventory + current_week_role.incoming_shipment
     #check whether the role is factory
     if(role.upstream_player != 0):
         upstream_role = Role.objects.get(pk=role.upstream_player)
         current_week_up = Week.objects.filter(number=current_week_role.number, role__id=upstream_role.id)
     else:
-        upstream_role = 'Brewery'
+        upstream_role = 'brewery'
     
     #check whether the role is retailer
     if(role.downstream_player != 0):
         downstream_role = Role.objects.get(pk=role.downstream_player)
         current_week_down = Week.objects.filter(number=current_week_role.number, role__id=downstream_role.id)
     else:
-        downstream_role='Consumer'
+        downstream_role='consumer'
 
-
-
-    # fig = go.Figure(
-    #     data=[go.Bar(y=[10, 20, 40])],
-    #     layout_title_text="Native Plotly rendering in Dash"
-    # )
-    # graph_div = plotly.offline.plot(fig, auto_open = False, output_type="div")
 
 
     if request.method == "POST":
-        if(game.rounds_completed >= game.nr_rounds):
-            game.is_completed = True
-            game.save()
-            return redirect('game:home')
         #some data taken from the game
         holding_cost = game.holding_cost
         backlog_cost = game.backlog_cost
@@ -437,12 +435,13 @@ def enterGame(request, role_id):
                     future_week_down.save()
 
         game.save()
-        return redirect('game:home')
+        return HttpResponseRedirect(reverse('game:enterGame', args=(role_id,)))
 
     
     context = {'message': message, 'completed': completed, 'role': role, 'upstream_role':upstream_role, 
     'downstream_role': downstream_role,'last_weeks':last_weeks, 'current_week_role': current_week_role,
-    'other_weeks': other_weeks,'game': game, 'graph1': return_graph(last_weeks, 'inventory')
+    'other_weeks': other_weeks,'game': game, 'total_requirements': total_requirements, 'total_available': total_available, 
+    'graph1': return_graph(last_weeks, 'inventory')
     , 'graph2': return_graph(last_weeks, 'demand'), 'graph3': return_graph(last_weeks, 'incoming_shipment'), 
     'graph4': return_graph(last_weeks, 'outgoing_shipment'), 'graph5': return_graph(last_weeks, 'order'), 
     'graph6': return_graph(last_weeks, 'all')
