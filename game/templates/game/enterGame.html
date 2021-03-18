@@ -105,7 +105,7 @@
                         Inventory at week {{current_week_role.number}}: <b>{{current_week_role.inventory}}</b> <br>
                         Current cost: <b>{{current_week_role.cost}}</b> <br>
 
-                        <p>Please wait until all orders have been placed to procedd to the next week.</p>
+                        <p>Please wait until all orders have been placed to proceed to the next week.</p>
                     </div>
                     {%endif%}
                 {%else%}
@@ -228,11 +228,131 @@
             <div class="card game-view-quadrant rounded-5 border-0 shadow-lg">
                 <h5>INVENTORY AND STATUS PLOTS - {{role.role_name}} </h5>
                 <div class="plot-buttons">
-                    
-                    <button class="btn btn-primary mb-2" id="plot-btn">Demand Plot</button>
-                    <button class="btn btn-primary mb-2" id="plot-btn">Order Plot</button>
-                    <button class="btn btn-primary mb-2" id="plot-btn">Inv/Backorder Plot</button>
-                    <button class="btn btn-primary mb-2" id="plot-btn">Plot All</button>
+                    <!-- INVENTORY PLOT -->
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#Inventory" id="plot-btn">
+                      Inventory
+                    </button>
+                    <!-- Modal -->
+                    <div class="modal fade" id="Inventory" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-lg" role="document" >
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="Inventory-Plot">Inventory Plot</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div>{{ graph1|safe }}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- DEMAND -->
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#Demand" id="plot-btn">
+                      Demand
+                    </button>
+                    <!-- Modal -->
+                    <div class="modal fade" id="Demand" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-lg" role="document" >
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="Demand-Plot">Demand Plot</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div>{{ graph2|safe }}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- INCOMING SHIPMENT PLOT -->
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#Incoming" id="plot-btn">
+                      Inc. Shipment
+                    </button>
+                    <!-- Modal -->
+                    <div class="modal fade" id="Incoming" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-lg" role="document" >
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="Incoming-Plot">Incoming Shipment Plot</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div>{{ graph3|safe }}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- OUTGOING SHIPMENT PLOT -->
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#Outgoing" id="plot-btn">
+                      Out. Shipment
+                    </button>
+                    <!-- Modal -->
+                    <div class="modal fade" id="Outgoing" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-lg" role="document" >
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="Outgoing-Plot">Ougoing Shipment Plot</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div>{{ graph4|safe }}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ORDER PLOT -->
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#Order" id="plot-btn">
+                      Order
+                    </button>
+                    <!-- Modal -->
+                    <div class="modal fade" id="Order" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-lg" role="document" >
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="Order-Plot">Order Plot</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div>{{ graph5|safe }}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- PLOT ALL -->
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#All" id="plot-btn">
+                      Plot All
+                    </button>
+                    <!-- Modal -->
+                    <div class="modal fade" id="All" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-lg" role="document" >
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="All-Plots">All Plots</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div>{{ graph6|safe }}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <h5>SUPPLY CHAIN SETTINGS - {{role.role_name}}</h5>
@@ -275,161 +395,10 @@
                         </tr>
                     </table>
                 </div>
-            <!-- {{ graph1|safe }}
-            {{ graph2|safe }}
-            {{ graph3|safe }}
-            {{ graph4|safe }}
-            {{ graph5|safe }}
-            {{ graph6|safe }} --> 
+           
             </div>
         </div>
     </div>
 
 </body>
 </html>
-
-
-
-<!-- {%for week in last_weeks%}
-{{week.number}}
-{%endfor%}
-{{current_week_role.number}} -->
-<!-- {{game.id}}
-{{role.role_name}}
-<h1>{{message}}</h1>
-{%if game.is_completed == false %}
-{%if current_week_role.order_placed == -1 %}    
-    {%if downstream_role.role_name %}
-    Demand from {{downstream_role.role_name}}: {{current_week_role.demand}}
-
-    {%else%}
-    Demand form {{downstream_role}}: {{current_week_role.demand}}
-    {%endif%}
-    <br>
-    On backorder: {{current_week_role.backlog}}
-    <br>
-    Total requirements: See comment -->
-    <!-- Finding a way to add this values in frontend, otherwise we do it from backend
-    Total requirements: current_week_role.backlog, current_week_role.demand-->
-<!--     <br>
-    <br>
-
-    Beginning inventory: {{current_week_role.inventory}}
-    <br>
-    Incoming shipment: {{current_week_role.incoming_shipment}}
-    <br>
-    Total available: -->
-    <!-- Finding a way to add this values in frontend, otherwise we do it from backend
-    Total available:current_week.inventory, current_week.incoming_shipment -->
-<!--     <br>
-    <br>
-
-
-
-    <form action="{% url 'game:enterGame' role.id %}" method="post">
-        {% csrf_token %}
-        <label for="order_placed">Place your order:</label><br>
-            <input type="number" name="order_placed" id="order_placed">
-        <input type="submit" value="submit">
-    </form>
-{%else%}
-You have ordered {{current_week_role.order}}
-{%endif%}
-{%endif%} -->
-
-
-
-<!-- Second part -->
-<!-- <h1>Weeks</h1>
-<table class="table">
-    <thead>
-        <tr>
-            <th>Number</th>
-            <th>Inventory</th>
-            <th>Backlog</th>
-            <th >Demand</th>
-            <th>Incoming Shipment</th>
-            <th>Outgoing Shipment</th>
-            <th>Order Placed</th>
-            <th>Cost</th>
-        </tr>
-    </thead>
-
-    <tbody>
-        {% if last_weeks %}
-            {% for week in last_weeks %}
-                    <tr>
-                        <td>{{week.number}}</td>
-                        <td>{{week.inventory}}</td>
-                        <td>{{week.backlog}}</td>
-                        <td>{{week.demand}}</td>
-                        <th>{{week.incoming_shipment}}</th>
-                        <td>{{week.outgoing_shipment}}</td>
-                        <td>{{week.order_placed}}</td>
-                        <td>{{week.cost}}</td>
-                    </tr>
-            {% endfor %} -->
-            <!-- Showing even the last week if the game is completed -->
-<!--             {%if completed == True %}
-            <tr>
-                <td>{{current_week_role.number}}</td>
-                <td>{{current_week_role.inventory}}</td>
-                <td>{{current_week_role.backlog}}</td>
-                <td>{{current_week_role.demand}}</td>
-                <th>{{current_week_role.incoming_shipment}}</th>
-                <td>{{current_week_role.outgoing_shipment}}</td>
-                <td>{{current_week_role.order_placed}}</td>
-                <td>{{current_week_role.cost}}</td>
-            </tr>
-            {%endif%}
-        {% else %}
-            <p>There are no weeks</p>
-        {% endif %}
-    </tbody>
-</table> -->
-
-
-<!-- Third part -->
-<!-- <h1>Some plots and general info of the game</h1>
-Holding cost: {{game.holding_cost}}
-etc. etc. -->
-
-<!-- Fourth part -->
-<!-- <h1>Status of others</h1>
-
-
-<table class="table">
-    <thead>
-        <tr>
-            {%if role.role_name == 'factory'%}
-            <th>Retailer</th>
-            <th>Wholesaler</th>
-            <th>Distributor</th>
-            {%elif role.role_name == 'distributor'%}
-            <th>Retailer</th>
-            <th>Wholesaler</th>
-            <th>Factory</th>
-            {%elif role.role_name == 'wholesaler'%}
-            <th>Retailer</th>
-            <th>Distributor</th>
-            <th>Factory</th>
-            {%else%}
-            <th>Wholesaler</th>
-            <th>Distributor</th>
-            <th>Factory</th>
-            {%endif%}
-        </tr>
-    </thead>
-
-    <tbody>
-        <tr>
-        {%for i in other_weeks %}
-            {%if i.order_placed == -1 %}
-                <td>It has not ordered</td>
-            {%else%}
-                <td>It has ordered</td>
-            {%endif%}
-        {%endfor%}
-        </tr>
-    </tbody>
-</table>
