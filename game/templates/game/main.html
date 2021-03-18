@@ -2,8 +2,7 @@
 
 {% block content %}
 <div class="header-image">
-    <!-- Idk why it doesn't display username -->
-    <p class="welcome-text">Welcome {{user.user_profile.username}}</p>
+    <p class="welcome-text">Welcome {{user.user.username}}</p>
 </div>
 
 <!-- Main content -->
@@ -15,9 +14,8 @@
     <div class="form-container py-2">
         <div class="card rounded-5 border-0 shadow">
             <div class="card-body p-5">
-
                 <!-- REGISTERED GAMES -->
-                {%if user.is_instructor == false%}
+                {%if user.is_instructor == False%}
                     <h2 style="text-align: left; padding-bottom: 30px;">Registered Games</h2>
 
                     <div class="table-responsive">
@@ -25,8 +23,8 @@
                             <thead>
                                 <tr>
                                     <th scope="col">Game ID</th>
-                                    <th>Role</th>
-                                    <th></th>
+                                    <th>Current Round</th>
+                                    <th>Role Name</th>
                                 </tr>
                             </thead>
 
@@ -36,7 +34,7 @@
                                         {% for game in role.game_set.all%}
                                             <tr>
                                                 <th scope="row">{{game.id}}</td>
-                                                <td>{{game.info_delay}}</td>
+                                                <td>{{game.rounds_completed}}</td>
                                                 <td>{{role.role_name}}</td>
                                                 <td>
                                                     <a href="{% url 'game:enterGame' role.id %}" class="enter-game-btn game-btn "><i class="nav-icons fas fa-sign-in-alt"></i>Enter Game</a></td>
@@ -50,11 +48,11 @@
                             </tbody>
                         </table>
                     </div>
-
+                {% endif %}
                 <!-- CREATED GAMES -->
 
                     <h2 style="text-align: left; padding-bottom: 30px; padding-top: 50px;">Created Games</h2>
-                {% endif %}
+                
 
                 <div class="cu-btns">
                     <a href="{% url 'game:create_game'%}" style="background-color: #59bd60;"><i class="nav-icons fas fa-plus-circle"></i>Create Game</a>

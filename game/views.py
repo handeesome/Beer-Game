@@ -64,6 +64,8 @@ def logoutUser(request):
 def home(request):
 
     list_roles = Role.objects.filter(userprofile=request.user.userprofile)
+    for role in list_roles:
+        print(role.role_name)
     game_created = Game.objects.filter(admin=request.user.userprofile)
     context={'message': 'Welcome to the main Page', 'list_roles': list_roles, 'game_created': game_created, 'user': request.user.userprofile}
     return render(request, 'game/main.html', context)
@@ -117,12 +119,12 @@ def createGame(request):
             r1.save()
             print(r1.id)
             if isDistributor:
-                r2 = Role(role_name="distributor")
+                r2 = Role(role_name="wholesaler")
                 r2.save()
                 r1.upstream_player = r2.id
                 r2.downstream_player = r1.id
             if isWholesaler:
-                r3 = Role(role_name="wholesaler")
+                r3 = Role(role_name="distributor")
                 r3.save()
                 if isDistributor:
                     r2.upstream_player = r3.id
@@ -158,18 +160,18 @@ def createGame(request):
             #create the weeks, with the respective times, number and starting inventory
             # and add them to the role
             for i in range(nrRounds):
-                week1 = Week(date=timezone.now()+datetime.timedelta(weeks=i), number= i+1, inventory=startingInventory)
+                week1 = Week(date=timezone.now()+datetime.timedelta(minutes=i*3), number= i+1, inventory=startingInventory)
                 week1.save()
                 r1.weeks.add(week1)
                 if(r2): 
-                    week2 = Week(date=timezone.now()+datetime.timedelta(weeks=i), number= i+1, inventory=startingInventory)
+                    week2 = Week(date=timezone.now()+datetime.timedelta(minutes=i*3), number= i+1, inventory=startingInventory)
                     week2.save()
                     r2.weeks.add(week2)
                 if(r3): 
-                    week3 = Week(date=timezone.now()+datetime.timedelta(weeks=i), number= i+1, inventory=startingInventory)
+                    week3 = Week(date=timezone.now()+datetime.timedelta(minutes=i*3), number= i+1, inventory=startingInventory)
                     week3.save()
                     r3.weeks.add(week3)
-                week4 = Week(date=timezone.now()+datetime.timedelta(weeks=i), number= i+1, inventory=startingInventory)
+                week4 = Week(date=timezone.now()+datetime.timedelta(minutes=i*3), number= i+1, inventory=startingInventory)
                 week4.save()
                 r4.weeks.add(week4)
     
@@ -184,7 +186,6 @@ def createGame(request):
 
 @login_required(login_url='game:login')
 def createDemand(request, game_id):
-    print("bbb")
     game = Game.objects.get(pk=game_id)
     if request.method == "POST":
         text = request.POST['demand']
@@ -206,6 +207,120 @@ def createDemand(request, game_id):
 
 @login_required(login_url='game:login')
 def enterGame(request, role_id):
-    context = {'message': 'You are at the game now', 'role_id': role_id}
+    message = 'Welcome to the game'
+    completed = False
+    role = Role.objects.get(pk=role_id)
+    upstream_role = '' 
+    downstream_role = ''
+    game= Game.objects.get(roles__id=role_id)
+    current_week_up = False
+    current_week_down = False
+
+    last_weeks = Week.objects.filter(date__lte=timezone.now(), role__id=role_id).order_by('-date')[:11]
+    # last_weeks = Week.objects.filter(role__id=role_id).order_by('date')[:10]
+    current_week_role = last_weeks[0]
+    last_weeks = Week.objects.filter(number__lt=current_week_role.number, role__id = role_id).order_by('date')[:10]
+    game.rounds_completed = current_week_role.number
+    if(game.is_completed):
+        message = 'Game completed'
+        completed = True
+    #find whether other player have ordered in this current round
+    other_weeks = Week.objects.filter(role__game=game, number=current_week_role.number).exclude(role__id = role_id).order_by('id')
+
+    #check whether the role is factory
+    if(role.upstream_player != 0):
+        upstream_role = Role.objects.get(pk=role.upstream_player)
+        current_week_up = Week.objects.filter(number=current_week_role.number, role__id=upstream_role.id)
+    else:
+        upstream_role = 'Brewery'
+    
+    #check whether the role is retailer
+    if(role.downstream_player != 0):
+        downstream_role = Role.objects.get(pk=role.downstream_player)
+        current_week_down = Week.objects.filter(number=current_week_role.number, role__id=downstream_role.id)
+    else:
+        downstream_role='Consumer'
+
+    if request.method == "POST":
+        if(game.rounds_completed >= game.nr_rounds):
+            game.is_completed = True
+            game.save()
+            return redirect('game:home')
+        #some data taken from the game
+        holding_cost = game.holding_cost
+        backlog_cost = game.backlog_cost
+        info_delay = game.info_delay
+        order_placed = request.POST['order_placed']
+
+
+        #calculating all the neccessary attributes for this current week
+        total_requirements = current_week_role.demand + current_week_role.backlog
+        total_available = current_week_role.inventory + current_week_role.incoming_shipment
+
+        new_inventory = total_available - total_requirements
+        new_backlog = 0
+        if new_inventory < 0:
+            new_backlog = abs(new_inventory)
+            new_inventory = 0
+            outgoing_shipment = total_available
+        else:
+            outgoing_shipment = total_requirements
+        
+        current_cost = current_week_role.cost + new_inventory * holding_cost + new_backlog*backlog_cost
+        
+        #saving all missing attributes to the corresponding week
+        current_week_role.order_placed = order_placed
+        current_week_role.inventory = new_inventory
+        current_week_role.backlog = new_backlog
+        current_week_role.outgoing_shipment = outgoing_shipment
+        current_week_role.cost = current_cost
+        current_week_role.save()
+
+
+        #updating the attributes of the next week of the corresponding role according to the info obtained
+        if(current_week_role.number+1 < game.nr_rounds):
+            next_week = Week.objects.get(role__id=role_id, number=current_week_role.number+1)
+            if(next_week):
+                next_week.inventory = new_inventory
+                next_week.backlog = new_backlog
+                next_week.cost = current_cost
+                next_week.save()
+        
+        
+        #updating the attributes of the (future) weeks of other roles according to the 
+        #corresponding relationship (upstream, downstream) and the info_delay
+        
+        if(current_week_role.number+info_delay < game.nr_rounds):   
+            #1 and the order placed by the user, which will become the demand to the upstream player after info_delay  
+            if(current_week_up):
+                #not a factory
+                #find the week of the upstream player, when the demand with arrive
+                future_week_up = Week.objects.get(role= upstream_role, number=current_week_role.number+info_delay)
+                if(future_week_up):
+                    future_week_up.demand = order_placed
+                    future_week_up.save()
+            else:
+                #factory, we will just update the week entity corresponding to the time after 2 weeks (1 + 1)
+                #it does not rely on the info_delay
+                future_week_role = Week.objects.get(role__id = role_id, number = current_week_role.number + 2)
+                if(future_week_role):
+                    future_week_role.incoming_shipment = order_placed
+                    future_week_role.save()
+
+            #2 and the outgoing shipment of the user, which will become the incoming shipment of the downstream player
+            if(current_week_down):
+                #not a retailer
+                future_week_down = Week.objects.get(role=downstream_role, number = current_week_role.number+info_delay)
+                if(future_week_down):
+                    future_week_down.incoming_shipment = outgoing_shipment
+                    future_week_down.save()
+
+        game.save()
+        return redirect('game:home')
+
+    
+    context = {'message': message, 'completed': completed, 'role': role, 'upstream_role':upstream_role, 
+    'downstream_role': downstream_role,'last_weeks':last_weeks, 'current_week_role': current_week_role,
+    'other_weeks': other_weeks,'game': game}
     return render(request, 'game/enterGame.html', context)
 

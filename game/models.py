@@ -11,10 +11,10 @@ class Week(models.Model):
     demand = models.IntegerField(default= 0)
     incoming_shipment = models.IntegerField(default= 0)
     outgoing_shipment = models.IntegerField(default= 0)
-    order_placed = models.IntegerField(default= 0)
+    order_placed = models.IntegerField(default= -1)
     cost = models.IntegerField(default= 0)
     def __str__(self):
-        return self.number
+        return str(self.number)
 
 
 class Role(models.Model):
@@ -52,8 +52,8 @@ class Game(models.Model):
     active = models.BooleanField(default=True)
     info_sharing = models.BooleanField(default=True)
     info_delay = models.IntegerField()
-    rounds_completed = models.IntegerField()
-    is_default_game = models.BooleanField(default=True)
+    rounds_completed = models.IntegerField(default=0)
+    is_completed = models.BooleanField(default=False)
     starting_inventory = models.IntegerField()
     roles=models.ManyToManyField(
         Role,

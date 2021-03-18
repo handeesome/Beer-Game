@@ -37,7 +37,7 @@ class GameCreationForm(forms.ModelForm):
     class Meta:
         model = Game
         fields = '__all__'
-        exclude = ('admin','roles')
+        exclude = ('admin','roles','active', 'info_sharing', 'rounds_completed', 'is_completed')
 
         widgets ={
             'nr_rounds': forms.NumberInput(attrs={'class':'form-control'}),
