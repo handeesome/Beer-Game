@@ -19,9 +19,13 @@
 
 <body>
     <div id="container-game-view">
+
         <!-- SCREEN 1 -->
         <div id="div1" class="quadrant"> 
             <div class="card game-view-quadrant rounded-5 border-0 shadow-lg">
+                <div style="text-align: left;">
+                    <a href="{% url 'game:join' %}" id="back-btn"><i class="fas fa-sign-out-alt" style="transform: rotate(180deg); padding-left: 5px;"></i>Back to Games</a>
+                </div>
                 <h5><span style="color: #214da3; font-weight: 700;">{{role.role_name}} - GAME {{game.id}} - WEEK {{current_week_role.number}}</span><br>INPUT SCREEN</h5>
                   {%if completed == False %}  
                     {% if current_week_role.order_placed == -1 %}
@@ -96,10 +100,10 @@
                     {%else%}
                     <div class="order-is-placed">
                         <!-- display order to upstream, order shipped to downstream, current inventory, current cost -->
-                        Your order is: {{current_week_role.order_placed}} <br>
-                        Your shipment is: {{current_week_role.outgoing_shipment}}<br>
-                        Inventory at week {{current_week_role.number}}: {{current_week_role.inventory}} <br>
-                        Current cost:{{current_week_role.cost}} <br>
+                        Your order is: <b>{{current_week_role.order_placed}}</b> <br>
+                        Your shipment is: <b>{{current_week_role.outgoing_shipment}}</b><br>
+                        Inventory at week {{current_week_role.number}}: <b>{{current_week_role.inventory}}</b> <br>
+                        Current cost: <b>{{current_week_role.cost}}</b> <br>
 
                         <p>Please wait until all orders have been placed to procedd to the next week.</p>
                     </div>
@@ -113,7 +117,7 @@
         <!-- SCREEN 2 -->
         <div id="div2" class="quadrant">
             <div class="card game-view-quadrant rounded-5 border-0 shadow-lg">
-                <h5>{{role.role_name}} INFORMATION FOR THE PAST 10 WEEKS</h5>
+                <h5>{{role.role_name}} INFORMATION FOR ALL WEEKS</h5>
                 <div class="table-cont">
                     <table class="table-input-screen table-weeks" id="table-weeks" border="1">
                         <thead>
