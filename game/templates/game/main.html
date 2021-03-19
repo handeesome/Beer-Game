@@ -17,7 +17,7 @@
                 <!-- CREATED GAMES -->                
 
                 <div class="cu-btns">
-                    <a href="{% url 'game:create_game'%}" style="background-color: #59bd60;"><i class="nav-icons fas fa-plus-circle"></i>Create Game</a>
+                    <a href="{% url 'game:create_game'%}" style="background-color: #59bd60; transition: 0.2s;"><i class="nav-icons fas fa-plus-circle"></i>Create Game</a>
                 </div>
 
                 <!--  Bootstrap table-->
@@ -33,8 +33,6 @@
                                 <th scope="col">Has Distributor</th>
                                 <th scope="col">Holding Cost</th>
                                 <th scope="col">Backlog Cost</th>
-                                <!-- <th scope="col">Demand Pattern</th>
-                                <th scope="col">Current Cost</th> -->
                                 <th scope="col">Current Week</th>
                                 <th scope="col">Week to Stop</th>
                                 <th scope="col">Reset</th>
@@ -55,9 +53,7 @@
                                     <td>{% if game.wholesaler_present == True %} Yes {% else %} No {% endif %}</td>
                                     <td>{% if game.distributor_present == True %} Yes {% else %} No {% endif %}</td> 
                                     <td>{{game.holding_cost}}</td> 
-                                    <td>{{game.backlog_cost}}</td> 
-                                    <!-- <td>0</td> -->  <!-- demand pattern -->
-                                    <!-- <td>0</td> -->  <!-- current cost -->
+                                    <td>{{game.backlog_cost}}</td>
                                     <td>{{game.rounds_completed}}</td> 
                                     <td>{{game.nr_rounds}}</td>
                                     <td>
@@ -67,13 +63,50 @@
                                         <button class="game-btn">Freeze</button> 
                                     </td>
                                     <td>
-                                        <button class="game-btn">Players</button> 
+                                        <button type="button" class="game-btn" data-toggle="modal" data-target="#Players" id="players-btn">
+                                          Players
+                                        </button>
+                                        <!-- Modal -->
+                                        <div id="Players" class="modal fade" data-backdrop="false">
+                                            <div class="modal-dialog modal-dialog-centered">
+                                                <div class="modal-content">
+                                                    <div class="modal-header d-block" style="cursor: move;">
+                                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                        <h5 class="modal-title text-center">Game id Players</h5>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <!-- Loops through players that are playing the game
+                                                        Displays 'Not Applicable' if distributor or wholesaler are not present -->
+                                                        <div id="players-list">
+                                                            <table>
+                                                                <tr>
+                                                                    <th>Factory</th>
+                                                                    <td>user name</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th>Distributor</th>
+                                                                    <td>user name</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th>Wholesaler</th>
+                                                                    <td>user name</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th>Retailer</th>
+                                                                    <td>user name</td>
+                                                                </tr>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </td>
                                     <td>
                                         <a href="{% url 'game:deleteGame' game.id %}" class="game-icon" data-toggle="tooltip" data-placement="bottom" title="Delete"><i class="fas fa-trash"></i></a>
                                     </td>
                                     <td>
-                                        <a href="#" class="game-icon" data-toggle="tooltip" data-placement="bottom" title="Update"><i class="fas fa-edit"></i></i></a>
+                                        <a href="#" class="game-icon" id="edit" data-toggle="tooltip" data-placement="bottom" title="Update"><i class="fas fa-edit"></i></i></a>
                                     </td>
                                 </tr>
                                 {% endfor %}
@@ -87,5 +120,15 @@
         </div>
     </div>
 </div>
+
+<script>
+// Makes modal draggable
+$("#Players").draggable({
+    handle: ".modal-header"
+});
+
+// Sets current link as active
+$('#create-link').addClass('active');
+</script>
 
 {% endblock %}

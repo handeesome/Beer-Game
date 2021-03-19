@@ -25,7 +25,6 @@ body, html { height: 100%; margin: 0; padding: 0; }
   width: 50%;
   height: 50%;
   float: left;
-  /*border: 1px solid grey;*/
   padding: 5px;
   overflow: auto;
 }
@@ -185,4 +184,31 @@ h5 {
   margin-left: auto;
   margin-right: auto;
   width: 100%;
+}
+
+body .modal-dialog {
+  max-width: 100%;
+  width: auto !important;
+  display: inline-block;
+}
+
+/*GAME INSIGHTS*/
+.container-game-insights {
+  text-align: center;
+  height: 100vh;
+}
+/*
+#plot-container {
+  height: 400px;
+  width: 800px;
+  padding: 50px;
+  border: 1px solid black;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}*/
+
+.form-control {
+  width:50px;
+  display:inline-block;
 }

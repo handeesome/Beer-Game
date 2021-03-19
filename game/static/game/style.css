@@ -288,6 +288,7 @@ select {
   border-radius: 5px;
   background-color: #878787;
   color: white;
+  transition: 0.2s;
 }
 
 .game-btn:hover {
@@ -311,6 +312,7 @@ table tbody tr:hover {
 .game-icon:hover {
   color: #ff504a;
   opacity: 100%;
+  transition: 0.2s;
 }
 
 .cu-btns {
@@ -357,4 +359,19 @@ table tbody tr:hover {
 .game-form-btn{
   padding: 10px;
   border-radius: 5px;
+}
+
+th .header-m {
+  font-weight: 400;
+}
+
+body .modal-dialog {
+  max-width: 100%;
+  width: auto !important;
+  display: inline-block;
+}
+
+#edit:hover {
+  color: #6996ff;
+  transition: 0.2s;
 }

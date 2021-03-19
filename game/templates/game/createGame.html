@@ -177,7 +177,7 @@ selects.forEach((elem) => {
         for (let select of selects) {
             select.querySelectorAll('option').forEach((option) => {
                 let value = option.value;
-                if (value &&    value !== select.value && values.includes(value)) {
+                if (value && value !== select.value && values.includes(value)) {
                     option.disabled = true;
                 } else {
                     option.disabled = false;
@@ -186,6 +186,10 @@ selects.forEach((elem) => {
         }
     });
 });
+
+// Sets current link as active
+$('#create-link').addClass('active');
+</script>
 </script>
 
 {% endblock %}
