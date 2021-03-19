@@ -49,7 +49,7 @@ class Game(models.Model):
     wholesaler_present = models.BooleanField(default=True)
     holding_cost = models.IntegerField()
     backlog_cost = models.IntegerField()
-    active = models.BooleanField(default=True)
+    is_active = models.BooleanField(default=False)
     info_sharing = models.BooleanField(default=True)
     info_delay = models.IntegerField()
     rounds_completed = models.IntegerField(default=0)

@@ -72,9 +72,6 @@ def home(request):
 @login_required(login_url='game:login')
 def assignedGames(request):
     list_roles = Role.objects.filter(userprofile=request.user.userprofile)
-    for role in list_roles:
-        print(role.role_name)
-
     context={'list_roles': list_roles, 'user': request.user.userprofile}
     return render(request, 'game/assignedGames.html', context)
 

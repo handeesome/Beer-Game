@@ -61,3 +61,10 @@ class ExtendedGameCreationForm(forms.Form):
     wholesaler = forms.ModelChoiceField(queryset=User.objects.all().filter(userprofile__is_instructor=False), required = False, widget=forms.Select(attrs={'class':'form-select'}))
     distributor = forms.ModelChoiceField(queryset=User.objects.all().filter(userprofile__is_instructor=False), required = False, widget=forms.Select(attrs={'class':'form-select'}))
     factory = forms.ModelChoiceField(queryset=User.objects.all().filter(userprofile__is_instructor=False), required= True, widget=forms.Select(attrs={'class':'form-select'}))
+
+
+class GameUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Game
+        fields = '__all__'
+        exclude = ('admin','roles','active', 'info_sharing', 'is_completed', 'starting_inventory')

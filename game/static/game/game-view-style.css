@@ -194,21 +194,22 @@ body .modal-dialog {
 
 /*GAME INSIGHTS*/
 .container-game-insights {
-  text-align: center;
+  text-align: center !important;
   height: 100vh;
 }
-/*
-#plot-container {
-  height: 400px;
-  width: 800px;
-  padding: 50px;
-  border: 1px solid black;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-}*/
 
 .form-control {
   width:50px;
   display:inline-block;
+}
+
+.game-plot {
+  display: none;
+}
+
+.plot-selector-cont {
+  width: 260px; 
+  margin-left: auto; 
+  margin-right: auto; 
+  padding: 30px;
 }

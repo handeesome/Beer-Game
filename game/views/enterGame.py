@@ -120,39 +120,63 @@ def enterGame(request, role_id):
     current_week_up = False
     current_week_down = False
 
+    if game.is_active:
+        last_weeks = Week.objects.filter(date__lte=timezone.now(), role__id=role_id).order_by('-date')[:11]
+        current_week_role = last_weeks[0]
+        last_weeks = Week.objects.filter(number__lt=current_week_role.number, role__id = role_id).order_by('date')[:10]
 
-    last_weeks = Week.objects.filter(date__lte=timezone.now(), role__id=role_id).order_by('-date')[:11]
-    current_week_role = last_weeks[0]
-    last_weeks = Week.objects.filter(number__lt=current_week_role.number, role__id = role_id).order_by('date')[:10]
-    game.rounds_completed = current_week_role.number
-    if(current_week_role.number == game.nr_rounds and current_week_role.order_placed != -1):
-        message = 'Game completed'
-        completed = True
-    
-    #find whether other player have ordered in this current round
-    other_weeks = Week.objects.filter(role__game=game, number=current_week_role.number).exclude(role__id = role_id).order_by('id')
-    
-    
-    total_requirements = current_week_role.demand + current_week_role.backlog
-    total_available = current_week_role.inventory + current_week_role.incoming_shipment
-    
-    #check whether the role is factory
-    if(role.upstream_player != 0):
-        upstream_role = Role.objects.get(pk=role.upstream_player)
-        current_week_up = Week.objects.filter(number=current_week_role.number, role__id=upstream_role.id)
-    else:
-        upstream_role = 'brewery'
-    
-    #check whether the role is retailer
-    if(role.downstream_player != 0):
-        downstream_role = Role.objects.get(pk=role.downstream_player)
-        current_week_down = Week.objects.filter(number=current_week_role.number, role__id=downstream_role.id)
-    else:
-        downstream_role='consumer'
+        game.rounds_completed = current_week_role.number
+        if(current_week_role.number == game.nr_rounds and current_week_role.order_placed != -1):
+            message = 'Game completed'
+            completed = True
 
+        #find whether other player have ordered in this current round
+        other_weeks = Week.objects.filter(role__game=game, number=current_week_role.number).exclude(role__id = role_id).order_by('id')
+
+
+        total_requirements = current_week_role.demand + current_week_role.backlog
+        total_available = current_week_role.inventory + current_week_role.incoming_shipment
+
+        #check whether the role is factory
+        if(role.upstream_player != 0):
+            upstream_role = Role.objects.get(pk=role.upstream_player)
+            current_week_up = Week.objects.filter(number=current_week_role.number, role__id=upstream_role.id)
+        else:
+            upstream_role = 'brewery'
+
+        #check whether the role is retailer
+        if(role.downstream_player != 0):
+            downstream_role = Role.objects.get(pk=role.downstream_player)
+            current_week_down = Week.objects.filter(number=current_week_role.number, role__id=downstream_role.id)
+        else:
+            downstream_role='consumer'
+        
+        context = {'message': message, 'completed': completed, 'role': role, 'upstream_role':upstream_role, 
+        'downstream_role': downstream_role,'last_weeks':last_weeks, 'current_week_role': current_week_role,
+        'other_weeks': other_weeks,'game': game, 'total_requirements': total_requirements, 'total_available': total_available, 
+        'graph1': return_graph(last_weeks, 'inventory')
+        , 'graph2': return_graph(last_weeks, 'demand'), 'graph3': return_graph(last_weeks, 'incoming_shipment'), 
+        'graph4': return_graph(last_weeks, 'outgoing_shipment'), 'graph5': return_graph(last_weeks, 'order'), 
+        'graph6': return_graph(last_weeks, 'all')
+        # 'graph_div': graph_div
+        }
+    else:
+        context = {'game':game }
 
 
     if request.method == "POST":
+        # determine if the game has completed
+        if current_week_role.number == game.nr_rounds:
+                    
+            if timezone.now() > current_week_role.date+datetime.timedelta(minutes=3):
+                game.is_completed = True
+            else: 
+                completed = True
+                for i in other_weeks:
+                    if i.order_placed == -1:
+                        completed = False
+                if completed == True:
+                    game.is_completed = True
         #some data taken from the game
         holding_cost = game.holding_cost
         backlog_cost = game.backlog_cost
@@ -226,15 +250,9 @@ def enterGame(request, role_id):
         return HttpResponseRedirect(reverse('game:enterGame', args=(role_id,)))
 
     
-    context = {'message': message, 'completed': completed, 'role': role, 'upstream_role':upstream_role, 
-    'downstream_role': downstream_role,'last_weeks':last_weeks, 'current_week_role': current_week_role,
-    'other_weeks': other_weeks,'game': game, 'total_requirements': total_requirements, 'total_available': total_available, 
-    'graph1': return_graph(last_weeks, 'inventory')
-    , 'graph2': return_graph(last_weeks, 'demand'), 'graph3': return_graph(last_weeks, 'incoming_shipment'), 
-    'graph4': return_graph(last_weeks, 'outgoing_shipment'), 'graph5': return_graph(last_weeks, 'order'), 
-    'graph6': return_graph(last_weeks, 'all')
-    # 'graph_div': graph_div
-    }
+    
     return render(request, 'game/enterGame.html', context)
+
+
 
 

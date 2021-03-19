@@ -1,0 +1,25 @@
+{%if game.is_completed == False%}
+
+<p>
+    Update the new custom demand by pasting comma delimited weekly demand
+    in the textbox below. You need to provide a demand stream for <b>{{rounds_remaining}}</b> weeks, each week 
+    seperated by a comma. <br>
+    <b>Note:</b> All demand values should be integers and do not include any space or hit enter after the last week 
+</p>
+<textarea name="demands" class="form-control" form="usrform">5, 4, 2, 3</textarea>
+<form method = "POST" action="{% url 'game:updateGame' game.id%}" id="usrform">       
+    {% csrf_token %}
+    {{form}} 
+    <input class="game-form-btn btn btn-primary btn-block" style="background-color: #6996ff; font-size: 18px; width: 150px;" type="submit" value="Submit">
+</form>
+<div class="errorlist" style="color: red">
+    {% for message in messages %}
+      <p id="messages">{{message}}</p>
+    {% endfor %}
+  </div>
+{%else%}
+Game is completed. Nothing to update!
+{%endif%}
+
+
+

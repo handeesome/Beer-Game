@@ -17,28 +17,44 @@ from game.forms import *
 
 @login_required(login_url='game:login')
 def monitorGames(request):
-    game_created = Game.objects.filter(admin=request.user.userprofile)
+    game_created = Game.objects.filter(admin=request.user.userprofile, is_active = True)
     games_info = []
 
 
-# games_info[[game1, factory_cost1, dist_cost1, wh_cost1, ret_cost1 ]
-#             [game2, factory_cost2, dist_cost2, wh_cost2, ret_cost2 ]....  ]
+# games_info[[game1, factory_cost1, dist_cost1, wh_cost1, ret_cost1, total_cost ]
+#             [game2, factory_cost2, dist_cost2, wh_cost2, ret_cost2, total_cost ]....  ]
     for game in game_created:
         game_info = []
         game_info.append(game)
+        
+        if(game.rounds_completed == 0):
+            nr = 1
+        else: nr = game.rounds_completed
+
+        total_cost = 0
         #get the last week of each role
-        week4 = Week.objects.get(role__game__id = game.id, role__role_name= 'factory', number=game.rounds_completed)
+        week4 = Week.objects.get(role__game__id = game.id, role__role_name= 'factory', number=nr)
         game_info.append(week4.cost)
+        total_cost += week4.cost
         
         if(game.distributor_present):
-            week3 = Week.objects.get(role__game__id = game.id, role__role_name= 'distributor', number=game.rounds_completed)
+            week3 = Week.objects.get(role__game__id = game.id, role__role_name= 'distributor', number=nr)
             game_info.append(week3.cost)
+            total_cost += week3.cost
         if(game.wholesaler_present):
-            week2 = Week.objects.get(role__game__id = game.id, role__role_name= 'wholesaler', number=game.rounds_completed)
+            week2 = Week.objects.get(role__game__id = game.id, role__role_name= 'wholesaler', number=nr)
             game_info.append(week2.cost)
+            total_cost += week2.cost
         
-        week1 = Week.objects.get(role__game__id = game.id, role__role_name= 'retailer', number=game.rounds_completed)
+        week1 = Week.objects.get(role__game__id = game.id, role__role_name= 'retailer', number=nr)
         game_info.append(week1.cost)
+        total_cost += week1.cost
+        print(total_cost,end=' ')
+        print(week1.cost,end=' ')
+        print(week2.cost,end=' ')
+        print(week3.cost,end=' ')
+        print(week4.cost)
+        game_info.append(total_cost)
         games_info.append(game_info)
 
     for game_info in games_info:
@@ -270,3 +286,37 @@ def adminPlots(request, game_id):
     }
     return render(request, 'game/adminPlots.html', context)
 
+
+
+@login_required(login_url='game:login')
+def gameInsights(request, game_id):
+    game = Game.objects.get(pk=game_id)
+    game_info = []
+    game_info.append(game)
+    
+    if(game.rounds_completed == 0):
+        nr = 1
+    else: nr = game.rounds_completed
+
+    total_cost = 0
+    #get the last week of each role
+    week4 = Week.objects.get(role__game__id = game.id, role__role_name= 'factory', number=nr)
+    game_info.append(week4.cost)
+    total_cost += week4.cost
+    
+    if(game.distributor_present):
+        week3 = Week.objects.get(role__game__id = game.id, role__role_name= 'distributor', number=nr)
+        game_info.append(week3.cost)
+        total_cost+=week3.cost
+    if(game.wholesaler_present):
+        week2 = Week.objects.get(role__game__id = game.id, role__role_name= 'wholesaler', number=nr)
+        game_info.append(week2.cost)
+        total_cost += week2.cost
+    
+    week1 = Week.objects.get(role__game__id = game.id, role__role_name= 'retailer', number=nr)
+    game_info.append(week1.cost)
+    total_cost += week1.cost
+    game_info.append(total_cost)
+
+    context={'game_info': game_info, 'user': request.user.userprofile}
+    return render(request, 'game/gameInsights.html', context)

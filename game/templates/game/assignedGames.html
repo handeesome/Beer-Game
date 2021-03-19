@@ -20,7 +20,8 @@
                                     <th scope="col">Game ID</th>
                                     <th>Current Week</th>
                                     <th>Role Name</th>
-                                    <!-- <th>Game Status</th> -->
+                                    <th>Active</th>
+                                    <th>Completed</th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -33,21 +34,21 @@
                                                 <th scope="row">{{game.id}}</td>
                                                 <td >{{game.rounds_completed}}</td>
                                                 <td style="text-transform: uppercase;">{{role.role_name}}</td>
-
-                                                <!-- Also this just to show if game is still active or not -->
-                                                <!-- <td>{{ game.is_active }}</td> -->
-
+                                                
+                                                <td>{{ game.is_active }}</td>
+                                                <td>{{game.is_completed}}</td>
                                                 <td>
-                                                    <a href="{% url 'game:enterGame' role.id %}"><i class="nav-icons fas fa-sign-in-alt"></i>Enter Game</a></td>
+                                                    <a href="{% url 'game:enterGame' role.id %}"><i class="nav-icons fas fa-sign-in-alt"></i>{%if game.is_completed == False %}Enter Game{%else%}View Game{%endif%}</a></td>
                                                 </td>
                                                 
                                                 <!-- This should appear only if game is not active so the user can't enter it but only view insights
                                                 disble enter game link after game is finished
                                                 This just links them to the game plots view -->
-                                            
-                                                <!-- <td>
-                                                    <a href="game:gameInsights"><i class="nav-icons fas fa-chart-line"></i>View Insights</a></td>
-                                                </td> -->
+                                                {%if game.is_completed == True %}
+                                                <td>
+                                                    <a href="{% url 'game:gameInsights' game.id %}"><i class="nav-icons fas fa-chart-line"></i>View Insights</a></td>
+                                                </td>
+                                                {%endif%}
                                                 
                                             </tr>
                                         {% endfor %}

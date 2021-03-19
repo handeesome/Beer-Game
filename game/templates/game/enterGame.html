@@ -18,8 +18,8 @@
 </head>
 
 <body>
+    {%if game.is_active == True %}
     <div id="container-game-view">
-
         <!-- SCREEN 1 -->
         <div id="div1" class="quadrant"> 
             <div class="card game-view-quadrant rounded-5 border-0 shadow-lg">
@@ -27,7 +27,8 @@
                     <a href="{% url 'game:join' %}" id="back-btn"><i class="fas fa-sign-out-alt" style="transform: rotate(180deg); padding-left: 5px;"></i>Back to Games</a>
                 </div>
                 <h5><span style="color: #214da3; font-weight: 700;">{{role.role_name}} - GAME {{game.id}} - WEEK {{current_week_role.number}}</span><br>INPUT SCREEN</h5>
-                  {%if completed == False %}  
+            {%if game.is_completed == False%}  
+                {%if completed == False %} 
                     {% if current_week_role.order_placed == -1 %}
                         <div class="table-cont">
                             <table class="table-input-screen">
@@ -109,8 +110,12 @@
                     </div>
                     {%endif%}
                 {%else%}
-                <h1>Game completed for you!</h1>
+                <h1>Game completed for you! Wait for others to finish their round!</h1>
                 {%endif%}
+            {%else%}
+            <h1>Game completed!</h1>
+            <a href="{% url 'game:gameInsights' game.id %}">Insight of the game</a>
+            {%endif%}
             </div>
         </div>
 
@@ -439,6 +444,8 @@
             </div>
         </div>
     </div>
-
+    {%else%}
+    <h1>Game not active</h1>
+    {%endif%}
 </body>
 </html>

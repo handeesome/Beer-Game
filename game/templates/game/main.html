@@ -35,10 +35,12 @@
                                 <th scope="col">Backlog Cost</th>
                                 <th scope="col">Current Week</th>
                                 <th scope="col">Week to Stop</th>
+                                <th scope="col">Active</th>
                                 <th scope="col">Reset</th>
                                 <th scope="col">Freeze</th>
                                 <!-- Players should show a pop-up modal with the player names, roles and passwords -->
                                 <th scope="col">Players</th>
+                                <th>Players2</th>
                                 <th></th>
                                 <th></th>
                             </tr>
@@ -56,6 +58,11 @@
                                     <td>{{game.backlog_cost}}</td>
                                     <td>{{game.rounds_completed}}</td> 
                                     <td>{{game.nr_rounds}}</td>
+                                    {%if game.is_active == True%}
+                                    <td>Yes</td>
+                                    {%else%}
+                                    <td><a href ="{% url 'game:startGame' game.id %}">Start Game</a></td>
+                                    {%endif%}
                                     <td>
                                         <button class="game-btn">Reset</button>
                                     </td>
@@ -79,22 +86,16 @@
                                                         Displays 'Not Applicable' if distributor or wholesaler are not present -->
                                                         <div id="players-list">
                                                             <table>
+                                                                
                                                                 <tr>
-                                                                    <th>Factory</th>
-                                                                    <td>user name</td>
+                                                                    {%for role in game.roles.all%}
+                                                                        {%for userprof in role.userprofile_set.all%}
+                                                                            <th>{{userprof.user}}</th>
+                                                                            <td>{{role.role_name}}</td>
+                                                                        {%endfor%} 
+                                                                    {%endfor%}                   
                                                                 </tr>
-                                                                <tr>
-                                                                    <th>Distributor</th>
-                                                                    <td>user name</td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <th>Wholesaler</th>
-                                                                    <td>user name</td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <th>Retailer</th>
-                                                                    <td>user name</td>
-                                                                </tr>
+                                                                
                                                             </table>
                                                         </div>
                                                     </div>
@@ -103,10 +104,18 @@
                                         </div>
                                     </td>
                                     <td>
+                                        {%for role in game.roles.all%}
+                                                                        {%for userprof in role.userprofile_set.all%}
+                                                                            {{userprof.user}} ->
+                                                                            {{role.role_name}}
+                                                                        {%endfor%} 
+                                        {%endfor%} 
+                                    </td>
+                                    <td>
                                         <a href="{% url 'game:deleteGame' game.id %}" class="game-icon" data-toggle="tooltip" data-placement="bottom" title="Delete"><i class="fas fa-trash"></i></a>
                                     </td>
                                     <td>
-                                        <a href="#" class="game-icon" id="edit" data-toggle="tooltip" data-placement="bottom" title="Update"><i class="fas fa-edit"></i></i></a>
+                                        <a href="{% url 'game:updateGame' game.id %}" class="game-icon" id="edit" data-toggle="tooltip" data-placement="bottom" title="Update"><i class="fas fa-edit"></i></i></a>
                                     </td>
                                 </tr>
                                 {% endfor %}

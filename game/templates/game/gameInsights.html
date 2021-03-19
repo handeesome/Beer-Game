@@ -31,7 +31,6 @@
                             </thead>
 
                             <tbody>
-                                {% for game_info in games_info %}
                                     <tr>
                                         <th scope="row">{{game_info.0.id}}</td>
                                         <td>{{game_info.0.info_delay}} weeks, {{game_info.0.backlog_cost}}, {{game_info.0.holding_cost}}</td>
@@ -65,7 +64,6 @@
                                             <button class="game-btn">Freeze</button> 
                                         </td>
                                     </tr>
-                                {% endfor %}
                             </tbody>
                         </table>
                     </div>

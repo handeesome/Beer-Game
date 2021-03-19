@@ -111,18 +111,18 @@ def createGame(request):
             #create the weeks, with the respective times, number and starting inventory
             # and add them to the role
             for i in range(nrRounds):
-                week1 = Week(date=timezone.now()+datetime.timedelta(minutes=i*3), number= i+1, inventory=startingInventory)
+                week1 = Week(date=timezone.now()+datetime.timedelta(weeks=(i+5)*3), number= i+1, inventory=startingInventory)
                 week1.save()
                 r1.weeks.add(week1)
                 if(r2): 
-                    week2 = Week(date=timezone.now()+datetime.timedelta(minutes=i*3), number= i+1, inventory=startingInventory)
+                    week2 = Week(date=timezone.now()+datetime.timedelta(weeks=(i+5)*3), number= i+1, inventory=startingInventory)
                     week2.save()
                     r2.weeks.add(week2)
                 if(r3): 
-                    week3 = Week(date=timezone.now()+datetime.timedelta(minutes=i*3), number= i+1, inventory=startingInventory)
+                    week3 = Week(date=timezone.now()+datetime.timedelta(weeks= (i+5)*3), number= i+1, inventory=startingInventory)
                     week3.save()
                     r3.weeks.add(week3)
-                week4 = Week(date=timezone.now()+datetime.timedelta(minutes=i*3), number= i+1, inventory=startingInventory)
+                week4 = Week(date=timezone.now()+datetime.timedelta(weeks=(i+5)*3), number= i+1, inventory=startingInventory)
                 week4.save()
                 r4.weeks.add(week4)
     
@@ -173,14 +173,44 @@ def deleteGame(request, game_id):
 # tbd
 @login_required(login_url='game:login')
 def updateGame(request, game_id):
-    # delete all the related roles, weeks related to the game
-    game = Game.objects.get(pk=game_id)
-    roles = Role.objects.filter(game__id = game_id)
-    
-    for role in roles:
-        weeks = Week.objects.filter(role__id=role.id)
-        for week in weeks:
-            week.delete()
-        role.delete()
-    game.delete()
+    game = Game.objects.get(pk = game_id)
+    rounds_remaining = game.nr_rounds - game.rounds_completed
+    if request.method == "POST":
+        form = GameUpdateForm(request.POST, instance=game)
+        if form.is_valid():
+            text = request.POST.get("demands", "1, 2")
+            demands = text.split(", ")
+            print(demands)
+            if len(demands) != rounds_remaining:
+                messages.info(request, 'You have not specified all remaining rounds')
+                return HttpResponseRedirect(reverse('game:updateGame', args=(game_id,)))
+            
+            k=game.rounds_completed + 1
+            print(game.rounds_completed)
+            for customer_demand in demands:
+                week1 = Week.objects.get(role__game=game, number=k, role__role_name="retailer")
+                week1.demand = customer_demand
+                week1.save()
+                k+=1
+            form.save()
+            # return HttpResponseRedirect(reverse('game:updateGame', args=(game_id,)))
+            return redirect('game:home')
+    else:
+        form = GameUpdateForm(instance = game)	
+    context = {'form':form, 'game':game, 'rounds_remaining': rounds_remaining}
+    return render(request, 'game/updateGame.html', context)
+
+@login_required(login_url='game:login')
+def startGame(request, game_id):
+    game = Game.objects.get(pk = game_id)
+    all_weeks = Week.objects.filter(role__game__id=game_id)
+    for week in all_weeks:
+        week.date = timezone.now()+datetime.timedelta(minutes=3*(week.number-1))
+        week.save()
+    game.is_active = True
+    game.save()
+    print(timezone.now())
     return redirect('game:home')
+
+
+
