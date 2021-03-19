@@ -170,7 +170,7 @@ def deleteGame(request, game_id):
     game.delete()
     return redirect('game:home')
 
-
+# tbd
 @login_required(login_url='game:login')
 def updateGame(request, game_id):
     # delete all the related roles, weeks related to the game

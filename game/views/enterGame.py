@@ -236,3 +236,5 @@ def enterGame(request, role_id):
     # 'graph_div': graph_div
     }
     return render(request, 'game/enterGame.html', context)
+
+

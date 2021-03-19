@@ -1,0 +1,49 @@
+<table class="status-table" style="text-align: left;">
+    <thead>
+        <tr>
+            <th>Game number</th>
+            <th>Game settings</th>
+            <th>Total cost</th>
+            <th>Factory cost</th>
+            <th>Distributor cost</th>
+            <th>Wholesaler cost</th>
+            <th>Retailer cost</th>
+            <th>Graphical plots</th>
+            <th>Stop continue</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for game_info in games_info %}
+        <tr>
+            <td>{{game_info.0.id}}</td>
+            <td>{{game_info.0.backlog_cost}}</td>
+            <!-- find a way to add them in frontend(otherwise backend) -->
+            <td>tbd</td>
+            <td>{{game_info.1}}</td>
+            {%if game_info.0.distributor_present%}
+                <td>{{game_info.2}}</td>
+                {%if game_info.0.wholesaler_present%}
+                    <td>{{game_info.3}}</td>
+                    <td>{{game_info.4}}</td>
+                {%else%}
+                    <td>n/a</td>
+                    <td>{{game_info.3}}</td>
+                {%endif%}
+            {%else%}
+                <td>n/a</td>
+                {%if game_info.0.wholesaler_present%}
+                    <td>{{game_info.2}}</td>
+                    <td>{{game_info.3}}</td>
+                {%else%}
+                    <td>n/a</td>
+                    <td>{{game_info.2}}</td>
+                {%endif%}
+            {%endif%}
+            <td><a href="{% url 'game:adminPlots' game_info.0.id %}">Plots</a></td>
+            <td>Freeze</td>
+        
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>

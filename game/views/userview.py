@@ -77,3 +77,4 @@ def assignedGames(request):
 
     context={'list_roles': list_roles, 'user': request.user.userprofile}
     return render(request, 'game/assignedGames.html', context)
+
