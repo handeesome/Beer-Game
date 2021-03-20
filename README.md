@@ -8,7 +8,7 @@ Our group has proposed some changes to the specification. It can be found in bon
 
 ## Table of contents
 * [General info](#general-info)
-* [Technologies](#description)
+* [Description](#description)
 * [Setup](#setup)
 
 
@@ -16,7 +16,7 @@ Our group has proposed some changes to the specification. It can be found in bon
 * **Frontend:** HTML, CSS, JS, Bootstrap  
 * **Backend:** Python, Django
 
-For this sprint, our team has basically implemented everything required on the specification (there is of course room for improvement). More information regarding the functionalities implemented can be found in the description.
+For this sprint, our team has basically implemented everything required on the specification (there is of course room for improvement). The previous group had only created some models of the database. More information regarding the functionalities implemented can be found in the description.
 
 
 
@@ -74,10 +74,10 @@ This Django project contains only one app, which is called 'game'.
 
 
 
-# Set up
-1. Install Django (if not currently installed)
-2. Install MySQl (if not currently installed)
-2. Install mysql-client. It is a MySQL DB API Driver. Information regarding the installation can be found [here](https://medium.com/@omaraamir19966/connect-django-with-mysql-database-f946d0f6f9e3)
+# Setup
+1. Install ** Django ** (if not currently installed)
+2. Install ** MySQl ** (if not currently installed)
+2. Install ** mysql-client **. It is a MySQL DB API Driver. Information regarding the installation can be found [here](https://medium.com/@omaraamir19966/connect-django-with-mysql-database-f946d0f6f9e3)
 3. After installation create a new database on Mysql, and include the information regarding it in /mysite/settings.py in the DATABASES section. More information can be found in the link given above.
 4. Make migrations (construction of the database)
 ```
