@@ -77,7 +77,7 @@ This Django project contains only one app, which is called 'game'.
 # Setup
 1. Install **Django** (if not currently installed)
 2. Install **MySQl** (if not currently installed)
-3. Install **mysql-client**. It is a MySQL DB API Driver. Information regarding the installation can be found [here](https://medium.com/@omaraamir19966/connect-django-with-mysql-database-f946d0f6f9e3)
+3. Install **mysql-client**. It is a MySQL DB API Driver. Information regarding the installation can be found [here](https://medium.com/@omaraamir19966/connect-django-with-mysql-database-f946d0f6f9e3). Pip install the other dependencies using the `requirements.txt` file.
 4. After installation create a new database on Mysql, and include the information regarding it in /mysite/settings.py in the DATABASES section. More information can be found in the link given above.
 5. Make migrations (construction of the database)
 ```
@@ -87,8 +87,7 @@ python manage.py migrate
 ```
 6. Run the server
 ```
-python manage.py makemigrations
-python manage.py migrate
+python manage.py runserver
 
 ```
 7. Navigate to http://localhost:8000/ and enjoy the game!
