@@ -95,10 +95,10 @@ python manage.py migrate
 
 For a better testing of the game:
 - Create 5 users (4 students, 1 instructor), signup, login
-- Login in with the instructor and create some games (more than 1), including the students you created, having different options (wholesaler, dostributor present/present). Recommended: Nr of weeks should not be too large, and information delay should be small (to notice the game logic better)
+- Login in with the instructor and create some games (more than 1), including the students you created, having different options (wholesaler, distributor present/not present). Recommended: Nr of weeks should not be too large, and information delay should be small (to notice the game logic better)
 - Start the games, at the main page, by clicking the link start game.
 - For testing purposes, each round lasts only 5 minutes. These can be changed at /views/crudGame.py. You have a variable at top, called round_length. If you want hours, days,weeks, instead of minutes you can change that at *startGame* view found in the same file.
 - Login in with the users created and play all the games concurrently. Do that for all the users (keep in mind the 5 minute length of the round).
 - You can notice that the logic of the game is implemented (order placed by a role, becomes a demand to another one, outgoing shipment becomes incoming shipment to the other role of the same game)
-- You can view the plots, the tables, or monitor the game (through the admin of the page).
+- You can view the plots, the tables, or monitor the game (through the admin of the game).
 
