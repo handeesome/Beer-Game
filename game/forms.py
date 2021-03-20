@@ -67,7 +67,7 @@ class GameUpdateForm(forms.ModelForm):
     class Meta:
         model = Game
         fields = '__all__'
-        exclude = ('admin','roles','active', 'info_sharing', 'is_completed', 'starting_inventory')
+        exclude = ('admin','roles','active', 'info_sharing', 'is_completed', 'starting_inventory', 'rounds_completed')
 
 
 class ExtendedGameUpdateForm(forms.Form):
