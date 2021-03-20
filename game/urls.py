@@ -19,5 +19,5 @@ urlpatterns = [
     path('start/game/<int:game_id>', views.startGame, name='startGame'),
     path('insights/game/<int:game_id>', views.gameInsights, name='gameInsights'),
     path('update/game/<int:game_id>', views.updateGame, name='updateGame'),
-    path('account_settings', views.accountSettings, name ='accountSettings'),
+    path('account_settings/', views.accountSettings, name ='accountSettings'),
 ]

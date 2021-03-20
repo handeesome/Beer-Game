@@ -23,6 +23,7 @@
                                     <th>Active</th>
                                     <th>Completed</th>
                                     <th></th>
+                                    <th></th>
                                 </tr>
                             </thead>
 
@@ -34,17 +35,16 @@
                                                 <th scope="row">{{game.id}}</td>
                                                 <td >{{game.rounds_completed}}</td>
                                                 <td style="text-transform: uppercase;">{{role.role_name}}</td>
-                                                
                                                 <td>{{ game.is_active }}</td>
                                                 <td>{{game.is_completed}}</td>
                                                 <td>
                                                     <a href="{% url 'game:enterGame' role.id %}">{%if game.is_completed == False %}<i class="nav-icons fas fa-sign-in-alt"></i>Enter Game{%else%}<i class="nav-icons far fa-eye"></i>View Game{%endif%}</a></td>
                                                 </td>
+                                                <td>
                                                 {%if game.is_completed == True %}
-                                                    <td>
-                                                        <a href="{% url 'game:gameInsights' game.id %}"><i class="nav-icons fas fa-chart-line"></i>View Insights</a></td>
-                                                    </td>
+                                                    <a href="{% url 'game:gameInsights' game.id %}"><i class="nav-icons fas fa-chart-line"></i>View Insights</a></td>
                                                 {%endif%}
+                                                </td>
                                             </tr>
                                         {% endfor %}
                                     {% endfor %}

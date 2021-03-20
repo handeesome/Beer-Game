@@ -69,6 +69,17 @@ class GameUpdateForm(forms.ModelForm):
         fields = '__all__'
         exclude = ('admin','roles','active', 'info_sharing', 'is_completed', 'starting_inventory', 'rounds_completed')
 
+        widgets ={
+            'nr_rounds': forms.NumberInput(attrs={'class':'form-control'}),
+            'info_delay': forms.NumberInput(attrs={'class':'form-control'}),
+            'holding_cost': forms.NumberInput(attrs={'class':'form-control'}),
+            'backlog_cost': forms.NumberInput(attrs={'class':'form-control'}),
+
+            'is_active': forms.CheckboxInput(attrs={'class':'form-check-input'}),
+            'distributor_present': forms.CheckboxInput(attrs={'class':'form-check-input', 'onclick':'check_distributor()'}),
+            'wholesaler_present': forms.CheckboxInput(attrs={'class':'form-check-input', 'onclick':'check_wholesaler()'}),
+        }
+
 
 class ExtendedGameUpdateForm(forms.Form):
     retailer = forms.ModelChoiceField(queryset=User.objects.all().filter(userprofile__is_instructor=False), required=True, widget=forms.Select(attrs={'class':'form-select'}))
