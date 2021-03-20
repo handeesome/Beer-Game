@@ -26,7 +26,7 @@
                                     <th>Retailer<br>Cost</th>
                                     <th>Total<br>Cost</th>
                                     <th>Graphical<br>Plots</th>
-                                    <th>Stop/Continue<br>the Game</th>
+                                    <!-- <th>Stop/Continue<br>the Game</th> -->
                                 </tr>
                             </thead>
 
@@ -62,9 +62,10 @@
                                         <td>
                                             <a href="{% url 'game:adminPlots' game_info.0.id %}" ><button class="game-btn">Plots</button></a>
                                         </td>
-                                        <td>
+                                        <!-- Not implemented -->
+                                        <!-- <td>
                                             <button class="game-btn">Freeze</button> 
-                                        </td>
+                                        </td> -->
                                     </tr>
                                 {% endfor %}
                             </tbody>

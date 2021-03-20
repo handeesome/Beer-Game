@@ -25,7 +25,49 @@
             <div class="card game-view-quadrant rounded-5 border-0 shadow-lg">
                 <div style="text-align: left;">
                     <a href="{% url 'game:join' %}" id="back-btn"><i class="fas fa-sign-out-alt" style="transform: rotate(180deg); padding-left: 5px;"></i>Back to Assigned Games</a>
+
+                    <i class="far fa-question-circle" id="info" style="float: right; opacity: 90%; cursor: pointer;" data-toggle="modal" data-target="#game-rules" data-toggle="tooltip" data-placement="bottom" title="Game Rules"></i>
+
+                    <!-- This is a modal with the Game Rules -->
+                    <div class="modal fade" id="game-rules" tabindex="-1" role="dialog" aria-labelledby="Inventory-Plot" aria-hidden="true" style="text-align: center;">
+                        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                            <div class="modal-content" style="max-width: 600px; padding: 20px;">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="Inventory-Plot">GAME RULES</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="rules" style="text-align: left;">
+                                        <h4>Game Diagram Example:</h4>
+                                        <img src="{% static 'game/img/bdg-diagram.png' %}" style="width: 100%;"></img><br>
+                                        Your objective is to keep your costs as low as possible. This is how the game works:
+                                        <ul>
+                                            <li>Each case of beer you have in stock costs <b>{{game.holding_cost}}</b> EUR per week</li>
+                                            <li>Each order that you cannot fill results in a ‘backlog’, and each case of beer on backlog costs <b>{{game.backlog_cost}}</b> EUR per week</li>
+                                            <li>The game will last <b>{{game.nr_rounds}}</b> weeks (rounds) – you must keep cumulative costs (all your weekly costs added together) as low as possible.</li>
+                                            <li>The supply chain consists of the retailer, the wholesaler, the distributor and the manufacturer.</li>
+                                            <li>Customers buy beer from the retailer, the retailer places orders with the wholesaler, the wholesaler places order with the distributor, and the distributor places orders with the manufacturer.</li>
+                                            <li>Orders take two weeks to be ‘received’ by the next upstream step (e.g. from the retailer to the wholesaler).</li>
+                                            <li>Deliveries move downstream (e.g. the distributor ships orders to the wholesaler). Deliveries take two weeks to arrive at the next downstream step.</li>
+                                            <li>Each week, you will place an order to the next upstream step. You will receive what you have ordered 4 weeks later (2 weeks for the next upstream step to receive the order and 2 more weeks for it to arrive at your location).</li>
+                                            <li>Each outgoing delivery reduces your stock by the number of cases of beer you ship.</li>
+                                            <li>Each incoming delivery increases your stock by the number of cases of beer you receive (i.e. the order you placed 4 weeks ago).</li>
+                                            <li>Each week, you must decide how much to order by changing the number on top and clicking on ‘Order’.</li>
+                                            <li>You will see on your screen how much you have in stock, how many cases of beer are on backlog (if any), your cumulative cost so far, the incoming order for that week, and how many cases of beer have just arrived – that is, your incoming delivery.</li>
+                                            <li>Use the above information to decide how many cases of beer to order each week.</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>        
                 </div>
+
                 <h5><span style="color: #214da3; font-weight: 700;">{{role.role_name}} - GAME {{game.id}} - WEEK {{current_week_role.number}}</span><br>INPUT SCREEN</h5>
             {%if game.is_completed == False%}  
                 {%if completed == False %} 
@@ -399,6 +441,9 @@
                             </div>
                         </div>
                     </div>
+
+
+                   
                 </div>
 
                 <h5>SUPPLY CHAIN SETTINGS - {{role.role_name}}</h5>
@@ -447,7 +492,7 @@
     </div>
     {%else%}
     <h1 style="text-align: center; padding-top: 50px;">Game not active</h1>
-    {%endif%}
+    {%endif%}      
 
 <script>
 // Shows that there is no plot to display if there is no plots

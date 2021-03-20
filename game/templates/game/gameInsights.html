@@ -8,10 +8,13 @@
     <p>Here you view insights on the selected game.<br>
 
     <hr>
-
+    
+    <a href="{% url 'game:join' %}" id="back-btn" style="padding-bottom: 15px;"><i class="fas fa-sign-out-alt" style="transform: rotate(180deg); padding-left: 5px;"></i>Back to Assigned Games</a>
     <div class="form-container py-2">
+
         <div class="card rounded-5 border-0 shadow">
             <div class="card-body p-5">
+
                 <!-- MONITORED GAMES -->
                     <div class="table-responsive">
                         <table class="table">
@@ -32,28 +35,28 @@
                                     <tr>
                                         <th scope="row">{{game_info.0.id}}</td>
                                         <td>{{game_info.0.info_delay}} weeks, {{game_info.0.backlog_cost}}, {{game_info.0.holding_cost}}</td>
-                                        <td>Cost: <b><span id="cost">{{game_info.1}}</span></b><br>W.C.: </td>
+                                        <td>Cost: <b><span id="cost">{{game_info.1}}</span></b></td>
                                         {%if game_info.0.distributor_present%}
-                                            <td>Cost: <b><span id="cost">{{game_info.2}}</span></b><br>W.C.: </td>
+                                            <td>Cost: <b><span id="cost">{{game_info.2}}</span></b></td>
                                             {%if game_info.0.wholesaler_present%}
-                                                <td>Cost: <b><span id="cost">{{game_info.3}}</span></b><br>W.C.: {{game_info.}}</td>
-                                                <td>Cost: <b><span id="cost">{{game_info.4}}</span></b><br>W.C.: </td>
-                                                <td>Cost: <b><span id="cost">{{game_info.5}}</span></b><br>W.C.: </td>
+                                                <td>Cost: <b><span id="cost">{{game_info.3}}</span></b></td>
+                                                <td>Cost: <b><span id="cost">{{game_info.4}}</span></b></td>
+                                                <td>Cost: <b><span id="cost">{{game_info.5}}</span></b></td>
                                             {%else%}
                                                 <td>n/a</td>
-                                                <td>Cost: <b><span id="cost">{{game_info.3}}</span></b><br>W.C.: </td>
-                                                <td>Cost: <b><span id="cost">{{game_info.4}}</span></b><br>W.C.: </td>
+                                                <td>Cost: <b><span id="cost">{{game_info.3}}</span></b></td>
+                                                <td>Cost: <b><span id="cost">{{game_info.4}}</span></b></td>
                                             {%endif%}
                                         {%else%}
                                             <td>n/a</td>
                                             {%if game_info.0.wholesaler_present%}
-                                                <td>Cost: <b><span id="cost">{{game_info.2}}</span></b><br>W.C.: </td>
-                                                <td>Cost: <b><span id="cost">{{game_info.3}}</span></b><br>W.C.: </td>
-                                                <td>Cost: <b><span id="cost">{{game_info.4}}</span></b><br>W.C.: </td>
+                                                <td>Cost: <b><span id="cost">{{game_info.2}}</span></b></td>
+                                                <td>Cost: <b><span id="cost">{{game_info.3}}</span></b></td>
+                                                <td>Cost: <b><span id="cost">{{game_info.4}}</span></b></td>
                                             {%else%}
                                                 <td>n/a</td>
-                                                <td>Cost: <b><span id="cost">{{game_info.2}}</span></b><br>W.C.: </td>
-                                                <td>Cost: <b><span id="cost">{{game_info.3}}</span></b><br>W.C.: </td>
+                                                <td>Cost: <b><span id="cost">{{game_info.2}}</span></b></td>
+                                                <td>Cost: <b><span id="cost">{{game_info.3}}</span></b></td>
                                             {%endif%}
                                         {%endif%}
                                         <td>
@@ -68,10 +71,5 @@
         </div>
     </div>
 </div>
-
-<script>
-// Sets current link as active
-$('#monitor-link').addClass('active');
-</script>
 
 {% endblock %}

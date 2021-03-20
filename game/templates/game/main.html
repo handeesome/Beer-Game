@@ -36,8 +36,9 @@
                                 <th scope="col">Current Week</th>
                                 <th scope="col">Week to Stop</th>
                                 <th scope="col">Active</th>
-                                <th scope="col">Reset</th>
-                                <th scope="col">Freeze</th>
+                                <!-- These buttons are not implemented -->
+                                <!-- <th scope="col">Reset</th>
+                                <th scope="col">Freeze</th> -->
                                 <!-- Players should show a pop-up modal with the player names, roles and passwords -->
                                 <th scope="col">Players</th>
                                 <th></th>
@@ -60,14 +61,14 @@
                                     {%if game.is_active == True%}
                                     <td style="color: green;">Yes</td>
                                     {%else%}
-                                    <td><a href ="{% url 'game:startGame' game.id %}">Start Game</a></td>
+                                    <td><a href ="{% url 'game:startGame' game.id %}">Activate</a></td>
                                     {%endif%}
-                                    <td>
+                                    <!-- <td>
                                         <button class="game-btn">Reset</button>
                                     </td>
                                     <td>
                                         <button class="game-btn">Freeze</button> 
-                                    </td>
+                                    </td> -->
                                     <td>
                                         <button type="button" id="modal-btn" class="game-btn" data-toggle="modal" data-target="#Players" 
                                         data-game="{{game.id}}"
