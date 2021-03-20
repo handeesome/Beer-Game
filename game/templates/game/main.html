@@ -40,7 +40,6 @@
                                 <th scope="col">Freeze</th>
                                 <!-- Players should show a pop-up modal with the player names, roles and passwords -->
                                 <th scope="col">Players</th>
-                                <th>Players2</th>
                                 <th></th>
                                 <th></th>
                             </tr>
@@ -59,7 +58,7 @@
                                     <td>{{game.rounds_completed}}</td> 
                                     <td>{{game.nr_rounds}}</td>
                                     {%if game.is_active == True%}
-                                    <td>Yes</td>
+                                    <td style="color: green;">Yes</td>
                                     {%else%}
                                     <td><a href ="{% url 'game:startGame' game.id %}">Start Game</a></td>
                                     {%endif%}
@@ -70,32 +69,32 @@
                                         <button class="game-btn">Freeze</button> 
                                     </td>
                                     <td>
-                                        <button type="button" class="game-btn" data-toggle="modal" data-target="#Players" id="players-btn">
-                                          Players
-                                        </button>
+                                        <button type="button" id="modal-btn" class="game-btn" data-toggle="modal" data-target="#Players" 
+                                        data-game="{{game.id}}"
+                                        data-players="
+                                        {%for role in game.roles.all%}
+                                            {%for userprof in role.userprofile_set.all%}
+                                                <tr>
+                                                    <th>{{role.role_name}}</th>
+                                                    <td>{{userprof.user}}</td>
+                                                </tr>
+                                            {%endfor%} 
+                                        {%endfor%}
+                                        ">Players</button>
+                                        <!-- Parsed data to display table inside modal -->
                                         <!-- Modal -->
-                                        <div id="Players" class="modal fade" data-backdrop="false">
+                                        <div id="Players" class="modal hide" data-backdrop="false">
                                             <div class="modal-dialog modal-dialog-centered">
                                                 <div class="modal-content">
                                                     <div class="modal-header d-block" style="cursor: move;">
                                                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                                        <h5 class="modal-title text-center">Game id Players</h5>
+                                                        <h5 class="modal-title" id="exampleModalLabel" style="text-align: left;">Players for Game <span id="game-id"></span></h5>
+                                                        <!-- <h5 class="modal-title text-center">Game id Players</h5> -->
                                                     </div>
                                                     <div class="modal-body">
-                                                        <!-- Loops through players that are playing the game
-                                                        Displays 'Not Applicable' if distributor or wholesaler are not present -->
                                                         <div id="players-list">
-                                                            <table>
-                                                                
-                                                                <tr>
-                                                                    {%for role in game.roles.all%}
-                                                                        {%for userprof in role.userprofile_set.all%}
-                                                                            <th>{{userprof.user}}</th>
-                                                                            <td>{{role.role_name}}</td>
-                                                                        {%endfor%} 
-                                                                    {%endfor%}                   
-                                                                </tr>
-                                                                
+                                                            <table id="players-roles">
+                                                                <!-- Players go here -->
                                                             </table>
                                                         </div>
                                                     </div>
@@ -103,14 +102,7 @@
                                             </div>
                                         </div>
                                     </td>
-                                    <td>
-                                        {%for role in game.roles.all%}
-                                                                        {%for userprof in role.userprofile_set.all%}
-                                                                            {{userprof.user}} ->
-                                                                            {{role.role_name}}
-                                                                        {%endfor%} 
-                                        {%endfor%} 
-                                    </td>
+                                    
                                     <td>
                                         <a href="{% url 'game:deleteGame' game.id %}" class="game-icon" data-toggle="tooltip" data-placement="bottom" title="Delete"><i class="fas fa-trash"></i></a>
                                     </td>
@@ -131,6 +123,17 @@
 </div>
 
 <script>
+// Changes modal content depending on game
++$('#Players').on('show.bs.modal', function (event) {
+    var button = $(event.relatedTarget)
+    var players = button.data('players')
+    var game = button.data('game')
+    var modal = $(this)
+
+    modal.find('#game-id').text(game);
+    modal.find('#players-roles').html(players);
+})
+
 // Makes modal draggable
 $("#Players").draggable({
     handle: ".modal-header"

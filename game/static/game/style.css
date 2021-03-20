@@ -244,12 +244,22 @@ select {
   padding-right: 5px;
 }
 
-.navbar-text {
+.navbar-text a {
   text-decoration: none;
 }
 
 .navbar-text:hover {
   opacity: 80%;
+  text-decoration: underline;
+}
+
+.settings {
+  color: white;
+}
+
+.settings:hover {
+  color: grey;
+  transition: 0.2s;
 }
 
 .header-image {
@@ -361,6 +371,11 @@ table tbody tr:hover {
   border-radius: 5px;
 }
 
+.game-form-btn:hover {
+  transition: 0.2s;
+  opacity: 90%;
+}
+
 th .header-m {
   font-weight: 400;
 }
@@ -374,4 +389,22 @@ body .modal-dialog {
 #edit:hover {
   color: #6996ff;
   transition: 0.2s;
+}
+
+.modal-dialog {
+  position: fixed;
+  width: 100%;
+  margin: 0;
+  padding: 10px;
+}
+
+.modal {
+   position: absolute;
+   top: 10px;
+   right: 100px;
+   bottom: 0;
+   left: 0;
+   z-index: 10040;
+   overflow: auto;
+   overflow-y: auto;
 }

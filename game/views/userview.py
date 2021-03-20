@@ -75,3 +75,7 @@ def assignedGames(request):
     context={'list_roles': list_roles, 'user': request.user.userprofile}
     return render(request, 'game/assignedGames.html', context)
 
+@login_required(login_url='game:login')
+def accountSettings(request):
+    context={'user': request.user.userprofile}
+    return render(request, 'game/accountSettings.html', context)

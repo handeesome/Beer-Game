@@ -4,9 +4,8 @@
 
 <!-- Main content -->
 <div class="main-container">
-    <h2>Monitor Games</h2>
-    <p>Here you can monitor all games you have created.<br>
-    <span style="font-size: 14px;"><b>Note: </b>W.C. stands for Week Completed.</span></p>
+    <h2>Game {{game_info.0.id}} Insights</h2>
+    <p>Here you view insights on the selected game.<br>
 
     <hr>
 
@@ -26,7 +25,6 @@
                                     <th>Retailer<br>Cost</th>
                                     <th>Total<br>Cost</th>
                                     <th>Graphical<br>Plots</th>
-                                    <th>Stop/Continue<br>the Game</th>
                                 </tr>
                             </thead>
 
@@ -60,8 +58,6 @@
                                         {%endif%}
                                         <td>
                                             <a href="{% url 'game:adminPlots' game_info.0.id %}" ><button class="game-btn">Plots</button></a>
-                                        <td>
-                                            <button class="game-btn">Freeze</button> 
                                         </td>
                                     </tr>
                             </tbody>

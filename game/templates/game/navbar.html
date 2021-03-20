@@ -46,7 +46,12 @@
 				</li>
 			</ul>
 		</div>
-		<span class="navbar-text small text-truncate mt-1 w-50 text-right" ><a href="{% url 'game:logout'%}">Logout</a></span>
+		<span class="navbar-text small text-truncate mt-1 w-50 text-right" >
+			<a style="color: white; text-decoration: none;" href="{% url 'game:logout'%}">Logout</a>
+		</span>
+		<span class="mt-1 text-right">
+			<a href="{% url 'game:accountSettings'%}" class="settings"><i class="fas fa-cog" style="padding-left: 15px; transform: scale(1.2);" data-toggle="tooltip" data-placement="bottom" title="Account Settings"></i></a>
+		</span>
 	</nav>
 
 	{% block content %}

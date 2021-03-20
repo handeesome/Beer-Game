@@ -24,59 +24,34 @@
         <h6>Inventory/Backorder/Order/Demand (Y-axis) and Week (X-axis)</h6>
         <!-- Plot Selector -->
         <div class="plot-selector-cont" style="">
-      		<select class="form-select" id="plot-type" aria-label="Default select example" style="width: 200px;">
+            <select class="form-select" id="plot-type" aria-label="Default select example" style="width: 200px;">
                 <option selected disabled="">Select Plot Type</option>
                 <optgroup label="Players">
-                	<option value="1">Retailer</option>
-	                <option value="2">Wholesaler</option>
-	                <option value="3">Distributor</option>
-	                <option value="4">Factory</option>
-	            </optgroup>
-	            <optgroup label="Supply Chain">
-		            <option value="5">Inventory</option>
-	                <option value="6">Demand</option>
-	                <option value="7">Incoming Shipment</option>
-	                <option value="8">Outgoing Shipment</option>
-	                <option value="9">Order</option>
-	            </optgroup>
+                    <option class="selector" value="1">Retailer</option>
+                    <option class="selector" value="2">Wholesaler</option>
+                    <option class="selector" value="3">Distributor</option>
+                    <option class="selector" value="4">Factory</option>
+                </optgroup>
+                <optgroup label="Supply Chain">
+                    <option class="selector" value="5">Inventory</option>
+                    <option class="selector" value="6">Demand</option>
+                    <option class="selector" value="7">Incoming Shipment</option>
+                    <option class="selector" value="8">Outgoing Shipment</option>
+                    <option class="selector" value="9">Order</option>
+                </optgroup>
             </select>
         </div>
 
-        <div class="game-plot" id="1">
-        	{{graph_retailer|safe}}
-        </div>
-
-        <div class="game-plot" id="2">
-        	{{graph_wholesaler|safe}}
-        </div>
-
-        <div class="game-plot" id="3">
-        	{{graph_distributor|safe}}
-        </div>
-
-        <div class="game-plot" id="4">
-        	{{graph_factory|safe}}
-        </div>
-
-        <div class="game-plot" id="5">
-        	{{graph_all_inventory|safe}}
-        </div>
-
-        <div class="game-plot" id="6">
-        	{{graph_all_demand|safe}}
-        </div>
-
-        <div class="game-plot" id="7">
-        	{{graph_all_incoming_shipment|safe}}
-        </div>
-
-        <div class="game-plot" id="8">
-        	{{graph_all_outgoing_shipment|safe}}
-        </div>
-
-        <div class="game-plot" id="9">
-        	{{graph_all_order|safe}} 
-        </div>
+        <!-- Plots -->
+        <div class="game-plot" id="1">{{graph_retailer|safe}}</div>
+        <div class="game-plot" id="2">{{graph_wholesaler|safe}}</div>
+        <div class="game-plot" id="3">{{graph_distributor|safe}}</div>
+        <div class="game-plot" id="4">{{graph_factory|safe}}</div>
+        <div class="game-plot" id="5">{{graph_all_inventory|safe}}</div>
+        <div class="game-plot" id="6">{{graph_all_demand|safe}}</div>
+        <div class="game-plot" id="7">{{graph_all_incoming_shipment|safe}}</div>
+        <div class="game-plot" id="8">{{graph_all_outgoing_shipment|safe}}</div>
+        <div class="game-plot" id="9">{{graph_all_order|safe}}</div>
 
         <div style="text-align: center; padding-top: 10px;">
             <a href="{% url 'game:monitorGames' %}" id="back-btn"><i class="fas fa-sign-out-alt" style="transform: rotate(180deg); padding-left: 5px;"></i>Back to Monitor Games</a>
@@ -89,6 +64,15 @@
     <!-- Maybe at a later point we can add more insights like average costs, rankings etc. -->
 
 <script>
+// Should be later on added to separate js file
+var plots = document.getElementsByClassName('game-plot');
+for (var i = 0; i < plots.length; i++) {
+    let test = plots[i].textContent;
+    if (test == 'False') {
+        plots[i].innerHTML = 'No plot to display';
+    }
+}
+
 // jQuery code to make plots appear and disappear when plot types are selected
 $(function() {
     $('#plot-type').change(function(){

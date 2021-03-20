@@ -24,7 +24,7 @@
         <div id="div1" class="quadrant"> 
             <div class="card game-view-quadrant rounded-5 border-0 shadow-lg">
                 <div style="text-align: left;">
-                    <a href="{% url 'game:join' %}" id="back-btn"><i class="fas fa-sign-out-alt" style="transform: rotate(180deg); padding-left: 5px;"></i>Back to Games</a>
+                    <a href="{% url 'game:join' %}" id="back-btn"><i class="fas fa-sign-out-alt" style="transform: rotate(180deg); padding-left: 5px;"></i>Back to Assigned Games</a>
                 </div>
                 <h5><span style="color: #214da3; font-weight: 700;">{{role.role_name}} - GAME {{game.id}} - WEEK {{current_week_role.number}}</span><br>INPUT SCREEN</h5>
             {%if game.is_completed == False%}  
@@ -83,7 +83,6 @@
                             </table>
                         </div>
                 
-
                        <!--  <div class="s1-details">
                             Units Shipped to Retailer this week: {units} <br>
                             Ending inventory: {{new_inventory}} <br>
@@ -100,7 +99,6 @@
 
                     {%else%}
                     <div class="order-is-placed">
-                        <!-- display order to upstream, order shipped to downstream, current inventory, current cost -->
                         Your order is: <b>{{current_week_role.order_placed}}</b> <br>
                         Your shipment is: <b>{{current_week_role.outgoing_shipment}}</b><br>
                         Inventory at week {{current_week_role.number}}: <b>{{current_week_role.inventory}}</b> <br>
@@ -110,11 +108,14 @@
                     </div>
                     {%endif%}
                 {%else%}
-                <h1>Game completed for you! Wait for others to finish their round!</h1>
+                <h3>Game completed for you! Wait for others to finish their round!</h3>
                 {%endif%}
             {%else%}
             <h1>Game completed!</h1>
-            <a href="{% url 'game:gameInsights' game.id %}">Insight of the game</a>
+            To view game insights click on the button below:
+            <div class="col text-center" style="padding-top: 10px;">
+                <a href="{% url 'game:gameInsights' game.id %}" type="button" class="btn btn-secondary" style="width: 150px;">View Insights</a>
+            </div>
             {%endif%}
             </div>
         </div>
@@ -127,7 +128,7 @@
                     <table class="table-input-screen table-weeks" id="table-weeks" border="1">
                         <thead>
                             <tr>
-                                <th>Number</th>
+                                <th>Week Number</th>
                                 <th>Inventory</th>
                                 <th>Backlog</th>
                                 <th >Demand</th>
@@ -288,7 +289,7 @@
                                     </button>
                                 </div>
                                 <div class="modal-body">
-                                    <div>{{ graph1|safe }}</div>
+                                    <div class="graph">{{ graph1|safe }}</div>
                                 </div>
                             </div>
                         </div>
@@ -309,7 +310,7 @@
                                     </button>
                                 </div>
                                 <div class="modal-body">
-                                    <div>{{ graph2|safe }}</div>
+                                    <div class="graph">{{ graph2|safe }}</div>
                                 </div>
                             </div>
                         </div>
@@ -330,7 +331,7 @@
                                     </button>
                                 </div>
                                 <div class="modal-body">
-                                    <div>{{ graph3|safe }}</div>
+                                    <div class="graph">{{ graph3|safe }}</div>
                                 </div>
                             </div>
                         </div>
@@ -351,7 +352,7 @@
                                     </button>
                                 </div>
                                 <div class="modal-body">
-                                    <div>{{ graph4|safe }}</div>
+                                    <div class="graph">{{ graph4|safe }}</div>
                                 </div>
                             </div>
                         </div>
@@ -372,7 +373,7 @@
                                     </button>
                                 </div>
                                 <div class="modal-body">
-                                    <div>{{ graph5|safe }}</div>
+                                    <div class="graph">{{ graph5|safe }}</div>
                                 </div>
                             </div>
                         </div>
@@ -393,7 +394,7 @@
                                     </button>
                                 </div>
                                 <div class="modal-body">
-                                    <div>{{ graph6|safe }}</div>
+                                    <div class="graph">{{ graph6|safe }}</div>
                                 </div>
                             </div>
                         </div>
@@ -445,7 +446,19 @@
         </div>
     </div>
     {%else%}
-    <h1>Game not active</h1>
+    <h1 style="text-align: center; padding-top: 50px;">Game not active</h1>
     {%endif%}
+
+<script>
+// Shows that there is no plot to display if there is no plots
+var plots = document.getElementsByClassName('graph');
+for (var i = 0; i < plots.length; i++) {
+    let test = plots[i].textContent;
+    if (test == 'False') {
+        plots[i].innerHTML = 'No plot to display';
+    }
+}
+</script>
+
 </body>
 </html>

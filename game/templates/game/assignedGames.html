@@ -38,18 +38,13 @@
                                                 <td>{{ game.is_active }}</td>
                                                 <td>{{game.is_completed}}</td>
                                                 <td>
-                                                    <a href="{% url 'game:enterGame' role.id %}"><i class="nav-icons fas fa-sign-in-alt"></i>{%if game.is_completed == False %}Enter Game{%else%}View Game{%endif%}</a></td>
+                                                    <a href="{% url 'game:enterGame' role.id %}">{%if game.is_completed == False %}<i class="nav-icons fas fa-sign-in-alt"></i>Enter Game{%else%}<i class="nav-icons far fa-eye"></i>View Game{%endif%}</a></td>
                                                 </td>
-                                                
-                                                <!-- This should appear only if game is not active so the user can't enter it but only view insights
-                                                disble enter game link after game is finished
-                                                This just links them to the game plots view -->
                                                 {%if game.is_completed == True %}
-                                                <td>
-                                                    <a href="{% url 'game:gameInsights' game.id %}"><i class="nav-icons fas fa-chart-line"></i>View Insights</a></td>
-                                                </td>
+                                                    <td>
+                                                        <a href="{% url 'game:gameInsights' game.id %}"><i class="nav-icons fas fa-chart-line"></i>View Insights</a></td>
+                                                    </td>
                                                 {%endif%}
-                                                
                                             </tr>
                                         {% endfor %}
                                     {% endfor %}
