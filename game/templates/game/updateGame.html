@@ -2,14 +2,16 @@
 
 <p>
     Update the new custom demand by pasting comma delimited weekly demand
-    in the textbox below. You need to provide a demand stream for <b>{{rounds_remaining}}</b> weeks, each week 
+    in the textbox below. You need to provide a demand stream for <b>{{rounds_remaining_prev}}</b> weeks, each week 
     seperated by a comma. <br>
-    <b>Note:</b> All demand values should be integers and do not include any space or hit enter after the last week 
+    <b>Note:</b> All demand values should be integers and do not include any space or hit enter after the last week.
+    <b>Important:</b> If you change the number of rounds than more fields need to be specified.
 </p>
 <textarea name="demands" class="form-control" form="usrform">5, 4, 2, 3</textarea>
 <form method = "POST" action="{% url 'game:updateGame' game.id%}" id="usrform">       
     {% csrf_token %}
     {{form}} 
+    {{form2}}
     <input class="game-form-btn btn btn-primary btn-block" style="background-color: #6996ff; font-size: 18px; width: 150px;" type="submit" value="Submit">
 </form>
 <div class="errorlist" style="color: red">
