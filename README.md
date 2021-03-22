@@ -75,22 +75,31 @@ This Django project contains only one app, which is called 'game'.
 
 
 # Setup
-1. Install **Django** (if not currently installed)
+1. Clone this repository
+```
+git clone https://github.com/lorenzorota/se-02-team-31.git
+```
 2. Install **MySQl** (if not currently installed)
-3. Install **mysql-client**. It is a MySQL DB API Driver. Information regarding the installation can be found [here](https://medium.com/@omaraamir19966/connect-django-with-mysql-database-f946d0f6f9e3). Pip install the other dependencies using the `requirements.txt` file.
-4. After installation create a new database on Mysql, and include the information regarding it in /mysite/settings.py in the DATABASES section. More information can be found in the link given above.
-5. Make migrations (construction of the database)
+3. Create a virtual environment and activate it. More information regarding that can be found [here](https://uoa-eresearch.github.io/eresearch-cookbook/recipe/2014/11/26/python-virtual-env/)
+4. All the dependencies of this project can be found in requirements.txt file. In order to install them just run the command:
+```
+pip install -r requirements.txt
+```
+If one of the dependencies cannot be installed, try to install them with pip.
+Note: More information installing **mysql-client** (Windows/Linux) if the above command did not work can be found [here](https://medium.com/@omaraamir19966/connect-django-with-mysql-database-f946d0f6f9e3).
+5. After installation create a new database on Mysql, and include the information regarding it in /mysite/settings.py in the DATABASES section. More information can be found in the link given above.
+6. Make migrations (construction of the database)
 ```
 python manage.py makemigrations
 python manage.py migrate
 
 ```
-6. Run the server
+7. Run the server
 ```
 python manage.py runserver
 
 ```
-7. Navigate to http://localhost:8000/ and enjoy the game!
+8. Navigate to http://localhost:8000/ and enjoy the game!
 
 For a better testing of the game:
 - Create 5 users (4 students, 1 instructor), signup, login

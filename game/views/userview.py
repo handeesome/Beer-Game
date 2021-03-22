@@ -5,7 +5,6 @@ from django.utils import timezone
 import datetime
 import matplotlib.pyplot as plt
 from io import StringIO
-import numpy as np
 
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
