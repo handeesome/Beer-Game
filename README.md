@@ -46,8 +46,15 @@ This Django project contains only one app, which is called 'game'.
             style.css
         templates/game/             # containing all html files
             *html files
+        tests/                      # testing
+            __pycache__/
+            __init__.py
+            test_forms.py
+            test_models.py
+            test_urls.py
+            test_views.py
         views/                      # views implemented as a python module
-            __pycache__
+            __pycache__/
             __init__.py
             crudGame.py             # create, delete, update game
             enterGame.py            # backend func. related to game playing
@@ -56,8 +63,7 @@ This Django project contains only one app, which is called 'game'.
         admin.py                    # admin page
         apps.py
         forms.py                    # forms needed for the implementation
-        models.py                   # all db models
-        tests.py        
+        models.py                   # all db models      
         urls.py
     mysite/                         # container of the whole project
         __pycache__/ ...             
