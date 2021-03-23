@@ -7,7 +7,7 @@ auth_user_groupsauth_user_user_permissions, django_admin_log,
 django_content_type, django_migrations, django_session
 
 -Custom entities (created by our group depending on the UML diagram):
-//the game is prepended to each model name due to the name of the app created
+//the "game" is prepended to each model name due to the name of the app created
 
 game_game, game_gamerole, game_role, game_roleweek, 
 game_userprofile, game_userrole, game_roleweek

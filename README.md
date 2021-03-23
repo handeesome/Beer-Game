@@ -10,13 +10,14 @@ Our group has proposed some changes to the specification. It can be found in bon
 * [General info](#general-info)
 * [Description](#description)
 * [Setup](#setup)
+* [Testing](#testing)
 
 
 # General info:
 * **Frontend:** HTML, CSS, JS, Bootstrap  
 * **Backend:** Python, Django
 
-For this sprint, our team has basically implemented everything required on the specification (there is of course room for improvement). The previous group had only created some models of the database. This app is deployed on the CLAMV server, but due to the lack of dependencies installed there, it does not work. Information regarding the functionalities implemented can be found in the description.
+For this sprint, our team has basically implemented everything required on the specification (there is of course room for improvement). The previous group had only created some models of the database, which proved unhelpful for us, due to the changes we proposed to the specification (see bonus.txt in root directory). That's why everything found in this repository is contributed by our team. This app is deployed on the CLAMV server, but due to the lack of dependencies installed there, it does not work. Information regarding the functionalities implemented can be found in the description.
 
 
 
@@ -112,3 +113,8 @@ For a better testing of the game:
 - You can notice that the logic of the game is implemented (order placed by a role, becomes a demand to another one, outgoing shipment becomes incoming shipment to the other role of the same game)
 - You can view the plots, the tables, or monitor the game (through the admin of the game).
 
+# Testing
+After doing the steps described in setup, the application can be tested with the command (in the root directory):
+```
+python manage.py test game
+```

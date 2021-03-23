@@ -82,6 +82,9 @@ DATABASES = {
         'PASSWORD': 'Password.New20',
         'HOST': 'localhost',
         'PORT': '3306',
+        'TEST': {
+            'NAME': 'test_game1',
+        },
     }
 }
 
