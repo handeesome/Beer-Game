@@ -17,7 +17,7 @@ Our group has proposed some changes to the specification. It can be found in bon
 * **Frontend:** HTML, CSS, JS, Bootstrap  
 * **Backend:** Python, Django
 
-For this sprint, our team has basically implemented everything required on the specification (there is of course room for improvement). The previous group had only created some models of the database, which proved unhelpful for us, due to the changes we proposed to the specification (see bonus.txt in root directory). That's why everything found in this repository is contributed by our team. This app is deployed on the CLAMV server, but due to the lack of dependencies installed there, it does not work. Information regarding the functionalities implemented can be found in the description.
+For this sprint, our team has basically implemented everything required on the specification (there is of course room for improvement). The previous group had only created some models of the database, which however were not helpful for the implementation of this project. That's why everything found in this repository is done by our group. This app is deployed on the CLAMV server, but due to the lack of dependencies installed there, it does not work. Information regarding the functionalities implemented can be found in the description.
 
 
 
