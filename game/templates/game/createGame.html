@@ -73,7 +73,8 @@
                         </div>
                     </div>
 
-                    <div class="row">
+                    <p><b>Important:</b> Please assign one role per player.</p>
+                    <div class="row">                        
                         <div class="col">
                             <div class="form-outline">
                                 <label class="form-label">Factory</label>
@@ -149,21 +150,33 @@
 // Checks whether distributor or wholesaler are selected and disables/enables the selectors
 function check_distributor() {
     var check1 = document.getElementById("id_distributor_present");
+    var sel1 = document.getElementById('id_distributor');
     if (check1.checked) {
-        document.getElementById('id_distributor').disabled = false;
+        sel1.disabled = false;
     }
     else {
-        document.getElementById('id_distributor').disabled = true;
+        for(i = 0; i < sel1.options.length; i++){
+            if(sel1.options[i].text == "---------"){
+                sel1.selectedIndex = i;
+            }
+        }
+        sel1.disabled = true;
     }
 } 
 
 function check_wholesaler() {
     var check2 = document.getElementById('id_wholesaler_present');
+    var sel2 = document.getElementById('id_wholesaler');
     if (check2.checked) {
-        document.getElementById('id_wholesaler').disabled = false;
+        sel2.disabled = false;
     }
     else {
-        document.getElementById('id_wholesaler').disabled = true;
+        for(i = 0; i < sel2.options.length; i++){
+            if(sel2.options[i].text == "---------"){
+                sel2.selectedIndex = i;
+            }
+        }
+        sel2.disabled = true;
     }
 }
 

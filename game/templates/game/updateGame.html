@@ -65,9 +65,12 @@
                             </div>
                         </div>
                     </div>
-
-                    <div class="row">
-                        <div class="col">
+                    
+                    <p><b>Important:</b> Please assign one role per player.</p>
+                    <div class="row" style="width: 30%;">
+                        
+                        {{form2}}
+                        <!-- <div class="col">
                             <div class="form-outline">
                                 <label class="form-label">Factory</label>
                                 {{form2.factory}}
@@ -93,7 +96,7 @@
                                 <label class="form-label">Retailer</label>
                                 {{form2.retailer}}
                             </div>
-                        </div>
+                        </div> -->
                     </div>
 
                     <div class="row">
@@ -160,6 +163,7 @@ var test1 = document.getElementById("id_distributor_present");
 if (test1.checked == false) {
     document.getElementById('id_distributor').disabled = true;
 }
+
 var test2 = document.getElementById("id_wholesaler_present");
 if (test2.checked == false) {
     document.getElementById('id_wholesaler').disabled = true;
@@ -167,30 +171,36 @@ if (test2.checked == false) {
 
 // Checks whether distributor or wholesaler are selected and disables/enables the selectors
 function check_distributor() {
-    let check1 = document.getElementById("id_distributor_present");
+    var check1 = document.getElementById("id_distributor_present");
+    var sel1 = document.getElementById('id_distributor');
     if (check1.checked) {
-        document.getElementById('id_distributor').disabled = false;
+        sel1.disabled = false;
     }
     else {
-        check1.selectedIndex = 0;
-        document.getElementById('id_distributor').disabled = true;
-        
+        for(i = 0; i < sel1.options.length; i++){
+            if(sel1.options[i].text == "---------"){
+                sel1.selectedIndex = i;
+            }
+        }
+        sel1.disabled = true;
     }
 } 
 
 function check_wholesaler() {
-    let check2 = document.getElementById('id_wholesaler_present');
+    var check2 = document.getElementById('id_wholesaler_present');
+    var sel2 = document.getElementById('id_wholesaler');
     if (check2.checked) {
-        document.getElementById('id_wholesaler').disabled = false;
+        sel2.disabled = false;
     }
     else {
-        check2.selectedIndex = 0;
-        document.getElementById('id_wholesaler').disabled = true;
-        
+        for(i = 0; i < sel2.options.length; i++){
+            if(sel2.options[i].text == "---------"){
+                sel2.selectedIndex = i;
+            }
+        }
+        sel2.disabled = true;
     }
 }
-
-// onchange
 
 // When a player is already selected, it becomes disabled in other selectors
 const selects = document.querySelectorAll('select');
@@ -215,6 +225,7 @@ $('#create-link').addClass('active');
 </script>
 
 {% endblock %}
+
 
 <!-- 
 
