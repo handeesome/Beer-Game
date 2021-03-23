@@ -66,11 +66,11 @@
                         </div>
                     </div>
                     
-                    <p><b>Important:</b> Please assign one role per player.</p>
-                    <div class="row" style="width: 30%;">
+                    <p><b>Important:</b> You can't change already assigned players. You can only add a distributor or wholesaler if not previously assigned.</p>
+                    <div class="row">
                         
-                        {{form2}}
-                        <!-- <div class="col">
+                        <!-- {{form2}} -->
+                        <div class="col">
                             <div class="form-outline">
                                 <label class="form-label">Factory</label>
                                 {{form2.factory}}
@@ -96,7 +96,7 @@
                                 <label class="form-label">Retailer</label>
                                 {{form2.retailer}}
                             </div>
-                        </div> -->
+                        </div>
                     </div>
 
                     <div class="row">
@@ -158,6 +158,27 @@
 </div>
 
 <script>
+// When a player is already selected, it becomes disabled in other selectors
+var $selects = $('select');
+$selects.on('change', function() {
+    var $select = $(this), 
+        $options = $selects.not($select).find('option'),
+        selectedText = $select.children('option:selected').text();
+
+    var $optionsToDisable = $options.filter(function() {
+        return $(this).text() == selectedText;
+    });
+
+    $optionsToDisable.prop('disabled', true);
+});
+
+// Iterating on every option to disable already selected options
+var i = 0;
+$("select > option").each(function() {
+    $selects.eq(i).trigger('change');
+    i++;
+});
+
 // Does initial check whether distributor or wholesaler are present
 var test1 = document.getElementById("id_distributor_present");
 if (test1.checked == false) {
@@ -178,6 +199,7 @@ function check_distributor() {
     }
     else {
         for(i = 0; i < sel1.options.length; i++){
+            // Resets select value
             if(sel1.options[i].text == "---------"){
                 sel1.selectedIndex = i;
             }
@@ -194,6 +216,7 @@ function check_wholesaler() {
     }
     else {
         for(i = 0; i < sel2.options.length; i++){
+            // Resets select value
             if(sel2.options[i].text == "---------"){
                 sel2.selectedIndex = i;
             }
@@ -202,54 +225,27 @@ function check_wholesaler() {
     }
 }
 
-// When a player is already selected, it becomes disabled in other selectors
-const selects = document.querySelectorAll('select');
-selects.forEach((elem) => {
-    elem.addEventListener('change', (event) => {
-        let values = Array.from(selects).map(select => select.value);
-        for (let select of selects) {
-            select.querySelectorAll('option').forEach((option) => {
-                let value = option.value;
-                if (value && value !== select.value && values.includes(value)) {
-                    option.disabled = true;
-                } else {
-                    option.disabled = false;
-                }
-            });
-        }
-    });
-});
-// Sets current link as active
+// document.getElementById('id_retailer').disabled = true;
+// document.getElementById('id_factory').disabled = true;
+
+// // If distributor is already selected, distributor checkbox is disabled
+// $('#id_distributor').change(function(){
+// var selected_option = $(this).find(":selected").text();
+// if (selected_option !== '---------')
+//     $('#id_distributor_present').prop('disabled', true);
+// });
+
+// // If wholesaler is already selected, wholesaler checkbox is disabled
+// $('#id_wholesaler').change(function(){
+// var selected_option = $(this).find(":selected").text();
+// if (selected_option !== '---------')
+//     $('#id_wholesaler_present').prop('disabled', true);
+// });
+
+// // Sets current link as active
 $('#create-link').addClass('active');
 </script>
 </script>
 
 {% endblock %}
 
-
-<!-- 
-
-{%if game.is_completed == False%}
-
-<p>
-    Update the new custom demand by pasting comma delimited weekly demand
-    in the textbox below. You need to provide a demand stream for <b>{{rounds_remaining_prev}}</b> weeks, each week 
-    seperated by a comma. <br>
-    <b>Note:</b> All demand values should be integers and do not include any space or hit enter after the last week.
-    <b>Important:</b> If you change the number of rounds than more fields need to be specified.
-</p>
-<textarea name="demands" class="form-control" form="usrform">5, 4, 2, 3</textarea>
-<form method = "POST" action="{% url 'game:updateGame' game.id%}" id="usrform">       
-    {% csrf_token %}
-    {{form}} 
-    {{form2}}
-    <input class="game-form-btn btn btn-primary btn-block" style="background-color: #6996ff; font-size: 18px; width: 150px;" type="submit" value="Submit">
-</form>
-<div class="errorlist" style="color: red">
-    {% for message in messages %}
-      <p id="messages">{{message}}</p>
-    {% endfor %}
-  </div>
-{%else%}
-Game is completed. Nothing to update!
-{%endif%} -->
