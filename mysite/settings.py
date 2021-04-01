@@ -75,7 +75,7 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
 Host_name = 'clabsql.clamv.jacobs-university.de'
-User_name = '' # HERE ADD YOUR CLAMV USERNAME
+User_name = '' # HERE ADD YOUR CLAMV USERNAME 
 
 DATABASES = {
     'default': { 
