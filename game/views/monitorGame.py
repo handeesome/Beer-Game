@@ -13,7 +13,6 @@ from django.contrib import messages
 from game.models import *
 from game.forms import *
 
-# all fig = plt.figure seem to have an error on this file
 
 @login_required(login_url='game:login')
 def monitorGames(request):
@@ -50,7 +49,7 @@ def monitorGames(request):
         game_info.append(week1.cost)
         total_cost += week1.cost
         print(total_cost,end=' ')
-        print(week1.cost,end=' ') # Error in this line not even sure what it does
+        print(week1.cost,end=' ')
         print(week2.cost,end=' ')
         print(week3.cost,end=' ')
         print(week4.cost)
