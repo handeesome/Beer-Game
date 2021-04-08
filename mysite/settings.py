@@ -54,7 +54,7 @@ ROOT_URLCONF = 'mysite.urls'
 
 TEMPLATES = [
     {
-        'BACKEND':'django.template.backends.django.DjangoTemplates',
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -74,24 +74,18 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-Host_name = 'clabsql.clamv.jacobs-university.de'
-User_name = '' # HERE ADD YOUR CLAMV USERNAME 
 
 DATABASES = {
-    'default': { 
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3'
-    },
-    'users': {
+    'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'seteam31',
-        'USER': User_name,
-        'PASSWORD': 'jaocbs@1412', # 'jwcnjh',
-        'HOST': Host_name,
-        'PORT': '',
-        # 'TEST': {
-        #     'NAME': 'test_game1',
-        #  },
+        'NAME': 'game',
+        'USER': 'root',
+        'PASSWORD': 'ducenhan',  # 'jwcnjh',
+        'HOST': 'localhost',
+        'PORT': '3306',
+        'TEST': {
+            'NAME': 'test_game1',
+        },
     },
 }
 
